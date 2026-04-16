@@ -9,6 +9,7 @@
   gcc
   gnumake
   gdb
+  wl-clipboard
   ];
 
 # set default editor as neovim

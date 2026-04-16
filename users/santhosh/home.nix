@@ -7,7 +7,8 @@
     telegram-desktop
     ghostty
     kitty
-    waybar
+    #waybar
+    hyprpanel
     awww
     rofi
     libnotify
@@ -25,69 +26,83 @@
     fonts.fontconfig.enable = true;
 
 # Hyprland config
-    wayland.windowManager.hyprland = {
-      enable = true;
-      settings ={
-          "$mainMod" = "SUPER";
-          monitor = ",preferred,auto,1.25";
+wayland.windowManager.hyprland = {
+  enable = true;
 
-          exec-once = [
-          "waybar"
-          "awww init"
-          ];
+  extraConfig = ''
+    $mainMod = SUPER
 
-          input = {
-              kb_layout = "us";
-              follow_mouse = 1;
-              touchpad = {
-                  natural_scroll = true;
-                  tap-to-click = true;
-                  drag_lock = true;
-                };
-                sensitivity = 0; # -1.0 to 1.0 (0  means no modificatoins)
-            };
+    monitor = ,preferred,auto,1.33
 
-          bind = [
-          "$mainMod, Return, exec, ghostty"
-          "$mainMod, W, killactive"
-          "$mainMod, Q, exit"
-          "$mainMod, E, exec, nautilus"
-          "$mainMod, Space, exec, rofi -show drun"
-          "$mainMod, V, togglefloating"
-          "$mainMod, P, pseudo"
-          "$mainMod, J, togglesplit"
+    exec-once = swww init
 
+    input {
+      kb_layout = us
+      follow_mouse = 1
 
-          # Focus Movement
-          "$mainMod, left, movefocus, l"
-          "$mainMod, right, movefocus, r"
-          "$mainMod, up, movefocus, u"
-          "$mainMod, down, movefocus, d"
+      touchpad {
+        natural_scroll = true
+        tap-to-click = true
+        drag_lock = true
+      }
 
-          # Workspaces
-          "$mainMod, 1, workspace, 1"
-          "$mainMod, 2, workspace, 2"
-          "$mainMod, 3, workspace, 3"
-          "$mainMod, 4, workspace, 4"
-        
-          # Move active window to workspace
-          "$mainMod SHIFT, 1, movetoworkspace, 1"
-          "$mainMod SHIFT, 2, movetoworkspace, 2"
-          ];
+      sensitivity = 0
+    }
 
-          general = {
-              layout = "dwindle";
-            };
-          
-          decoration = {
-              rounding = 2;
-              blur = { enabled = true; size = 3; passes = 0;};
-            };
+    gesture = 3, horizontal, workspace
 
-            drop_shadow = false;
-            shadow_range = 4;
-            shadow_renderer_power = 3;
-            "col.shadow" = "rgba(1a1a1aee)";
+    bind = $mainMod, Return, exec, ghostty
+    bind = $mainMod, W, killactive
+    bind = $mainMod, Q, exit
+    bind = $mainMod, E, exec, nautilus
+    bind = $mainMod, Space, exec, rofi -show drun
+    bind = $mainMod, V, togglefloating
+    bind = $mainMod, P, pseudo
+    bind = $mainMod, J, togglesplit
+
+    bind = $mainMod, left, movefocus, l
+    bind = $mainMod, right, movefocus, r
+    bind = $mainMod, up, movefocus, u
+    bind = $mainMod, down, movefocus, d
+
+    bind = $mainMod, 1, workspace, 1
+    bind = $mainMod, 2, workspace, 2
+    bind = $mainMod, 3, workspace, 3
+    bind = $mainMod, 4, workspace, 4
+
+    bind = $mainMod SHIFT, 1, movetoworkspace, 1
+    bind = $mainMod SHIFT, 2, movetoworkspace, 2
+
+    general {
+      layout = dwindle
+    }
+
+    decoration {
+      rounding = 2
+
+      blur {
+        enabled = true
+        size = 3
+        passes = 0
+      }
+    }
+
+    drop_shadow = false
+    shadow_range = 4
+    shadow_render_power = 3
+    col.shadow = rgba(1a1a1aee)
+  '';
+};
+      programs.hyprpanel = {
+        enable = true;
+        settings = {
+            layout = {
+                "0" = {
+                    left = ["dashboard" "workspaces"];
+                    middle = ["media"];
+                    right = ["volume" "systray" "notifications"];
+                  };
+              };
+          };
         };
-      };
   }
