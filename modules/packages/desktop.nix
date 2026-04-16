@@ -5,4 +5,9 @@
   libreoffice-fresh
   vscodium
   ];
+
+  programs.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
 }
