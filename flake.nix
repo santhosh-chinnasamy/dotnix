@@ -18,6 +18,8 @@ inputs = {
           specialArgs = { inherit inputs; };
           modules = [
           ./hosts/thinkpad/configuration.nix
+          ./modules/packages/cli.nix
+          ./modules/packages/desktop.nix
 
           # hardware specific modules
           # lenovo-thinkpad-e14-intel gen 7 modules not available as of now.
