@@ -80,12 +80,11 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.santhosh = {
     isNormalUser = true;
-    description = "santhosh";
-    extraGroups = [ "networkmanager" "wheel" ];
+    description = "Santhosh";
+    extraGroups = [ "networkmanager" "wheel" "video" ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -110,6 +109,7 @@
   curl
   wget
   bat
+  ripgrep
   ];
 
 # set default editor as neovim
