@@ -4,15 +4,20 @@ description = "Santhosh's Nix System flake";
 inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    home-manager = {
+        url = "github:nix-community/home-manager";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, ... } @inputs: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, ... } @inputs: {
       nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
-          ./configuration.nix
+          ./hosts/thinkpad/configuration.nix
 
           # hardware specific modules
           # lenovo-thinkpad-e14-intel gen 7 modules not available as of now.
@@ -21,10 +26,12 @@ inputs = {
           nixos-hardware.nixosModules.common-cpu-intel
           nixos-hardware.nixosModules.common-gpu-intel
           nixos-hardware.nixosModules.common-pc-laptop-ssd
-# enable flakes within itself;
+          home-manager.nixosModules.home-manager
           {
-              nix.settings.experimental-features = ["nix-command" "flakes"];
-            }
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.santhosh = import ./users/santhosh/home.nix;
+          }
           ];
         };
     };
