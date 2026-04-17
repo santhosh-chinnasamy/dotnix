@@ -10,6 +10,11 @@
   gnumake
   gdb
   wl-clipboard
+  tree-sitter
+  direnv
+  xdg-utils
+  openssl
+  openssl.dev
   ];
 
 # set default editor as neovim
