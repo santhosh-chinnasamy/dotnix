@@ -1,22 +1,33 @@
 {
-description = "Santhosh's Nix System flake";
+  description = "Santhosh's Nix System flake";
 
-inputs = {
+  inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
-        url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, ... } @inputs: {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nixos-hardware,
+      ...
+    }@inputs:
+    {
       nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
           ./hosts/thinkpad/configuration.nix
           ./modules/packages/cli.nix
           ./modules/packages/desktop.nix
@@ -32,9 +43,13 @@ inputs = {
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
             home-manager.users.santhosh = import ./users/santhosh/home.nix;
           }
-          ];
-        };
+        ];
+      };
     };
 }
