@@ -1,6 +1,6 @@
 {
   ls = "eza";
-
+  cat = "bat";
   ## git
   g = "git";
   gst = "git status";
@@ -8,6 +8,7 @@
   gp = "git push";
   ga = "git add";
   gc = "git commit";
+  lg = "lazygit";
 
   # nix
   np = "cd /etc/nixos-config/";

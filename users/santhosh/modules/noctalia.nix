@@ -52,6 +52,11 @@
           ];
         };
       };
+      general = {
+        telemetryEnabled = false;
+        autoStartAuth = true;
+        allowPasswordWithFprintd = true;
+      };
       ui = {
         fontDefault = "JetBrainsMono Nerd Font";
         fontFixed = "monospace";
