@@ -57,6 +57,33 @@
         autoStartAuth = true;
         allowPasswordWithFprintd = true;
       };
+      appLauncher = {
+        enableClipboardHistory = true;
+        autoPasteClipboard = false;
+        enableClipPreview = true;
+        clipboardWrapText = true;
+        enableClipboardSmartIcons = true;
+        enableClipboardChips = true;
+        clipboardWatchTextCommand = "wl-paste --type text --watch cliphist store";
+        clipboardWatchImageCommand = "wl-paste --type image --watch cliphist store";
+        position = "center";
+        pinnedApps = [ ];
+        sortByMostUsed = true;
+        terminalCommand = "ghostty -e";
+        customLaunchPrefixEnabled = false;
+        customLaunchPrefix = "";
+        viewMode = "grid";
+        showCategories = true;
+        iconMode = "tabler";
+        showIconBackground = false;
+        enableSettingsSearch = true;
+        enableWindowsSearch = true;
+        enableSessionSearch = true;
+        ignoreMouseInput = false;
+        screenshotAnnotationTool = "";
+        overviewLayer = true;
+        density = "comfortable";
+      };
       ui = {
         fontDefault = "JetBrainsMono Nerd Font";
         fontFixed = "monospace";
@@ -75,6 +102,31 @@
         enabled = true;
         position = "bottom";
         #displayMode = "auto_hide";
+      };
+      esktopWidgets = {
+        enabled = true;
+        overviewEnabled = true;
+        gridSnap = false;
+        gridSnapScale = false;
+        monitorWidgets = [
+          {
+            name = "eDP-1";
+            widgets = [
+              {
+                clockColor = "none";
+                clockStyle = "minimal";
+                format = "hh=mm AP\\nd MMMM yyyy";
+                id = "Clock";
+                roundedCorners = true;
+                scale = "1.6720092414745276";
+                showBackground = true;
+                useCustomFont = false;
+                x = "1853";
+                y = "253";
+              }
+            ];
+          }
+        ];
       };
     };
 

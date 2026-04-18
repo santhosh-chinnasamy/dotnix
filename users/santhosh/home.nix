@@ -18,6 +18,7 @@
       libnotify
       brightnessctl
       networkmanagerapplet
+      gh
     ];
   };
 

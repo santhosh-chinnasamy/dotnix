@@ -41,6 +41,7 @@
                         bind = $mainMod, Q, exit
                         bind = $mainMod, E, exec, nautilus
                         bind = $mainMod, Space, exec, $ipc launcher toggle
+                        bind = ALT CTRL, C, exec, $ipc launcher clipboard
                         bind = $mainMod, V, togglefloating
                         bind = $mainMod, P, pseudo
                         bind = $mainMod, J, togglesplit
