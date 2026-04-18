@@ -39,6 +39,7 @@
             { id = "SystemMonitor"; }
             { id = "NotificationHistory"; }
             { id = "Network"; }
+            { id = "Bluetooth"; }
             {
               id = "Battery";
               showNoctaliaPerformance = true;

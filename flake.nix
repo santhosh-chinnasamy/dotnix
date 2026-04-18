@@ -48,6 +48,7 @@
               inherit inputs;
             };
             home-manager.users.santhosh = import ./users/santhosh/home.nix;
+            home-manager.users.lisasri = import ./users/lisasri/home.nix;
           }
         ];
       };

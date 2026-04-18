@@ -5,10 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -17,7 +17,8 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.initrd.luks.devices."luks-74d8a3cb-1d4b-4c8a-a2f3-08887c0c5aa3".device = "/dev/disk/by-uuid/74d8a3cb-1d4b-4c8a-a2f3-08887c0c5aa3";
+  boot.initrd.luks.devices."luks-74d8a3cb-1d4b-4c8a-a2f3-08887c0c5aa3".device =
+    "/dev/disk/by-uuid/74d8a3cb-1d4b-4c8a-a2f3-08887c0c5aa3";
   networking.hostName = "thinkpad"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -84,9 +85,22 @@
   users.users.santhosh = {
     isNormalUser = true;
     description = "Santhosh";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+    ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
+    ];
+  };
+
+  users.users.lisasri = {
+    isNormalUser = true;
+    description = "Lisasri";
+    extraGroups = [
+      "networkmanager"
+      "video"
     ];
   };
 
@@ -97,7 +111,10 @@
   nixpkgs.config.allowUnfree = true;
 
   # Enable flakes and nix command line
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
