@@ -17,11 +17,18 @@
     openssl
     openssl.dev
     statix
-    quickshell
-    inputs.noctalia.packages.${pkgs.system}.default
+    fd
+    eza
+    just
   ];
 
   # set default editor as neovim
   environment.variables.EDITOR = "nvim";
-  fonts.packages = with pkgs; [ nerd-fonts.jetbrains-mono ];
+  fonts = {
+    packages = with pkgs; [ nerd-fonts.jetbrains-mono ];
+
+    fontconfig.defaultFonts = {
+      monospace = [ "JetBrainsMono Nerd Font" ];
+    };
+  };
 }
