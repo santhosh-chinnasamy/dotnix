@@ -19,6 +19,7 @@
       brightnessctl
       networkmanagerapplet
       gh
+      gemini-cli
     ];
   };
 

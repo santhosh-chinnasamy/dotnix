@@ -1,6 +1,9 @@
 {
   ls = "eza";
   cat = "bat";
+  src = "source ~/.bashrc";
+  hg = "history | rg $1";
+
   ## git
   g = "git";
   gst = "git status";
@@ -11,6 +14,11 @@
   lg = "lazygit";
 
   # nix
-  np = "cd /etc/nixos-config/";
-  npv = "np && nvim .";
+  d = "cd /etc/nixos-config/";
+  dv = "np && nvim .";
+
+  # vim
+  v = "nvim";
+  nv = "nvim";
+
 }
