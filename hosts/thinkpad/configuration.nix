@@ -109,6 +109,22 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (pkgs.lib.getName pkg) [
+      "1password-cli"
+      "1password-gui"
+    ];
+
+  programs = {
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      # Required for system authentication (fingerprint/password) to work
+      polkitPolicyOwners = [ "santhosh" ];
+    };
+  };
+
   # Enable flakes and nix command line
   nix.settings.experimental-features = [
     "nix-command"

@@ -12,6 +12,7 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    _1password-shell-plugins.url = "github:1Password/shell-plugins";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
