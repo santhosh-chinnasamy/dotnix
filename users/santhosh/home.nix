@@ -40,5 +40,6 @@
     ./modules/hyprland.nix
     ./modules/noctalia.nix
     ./modules/1password.nix
+    ./modules/zen.nix
   ];
 }

@@ -19,6 +19,7 @@
 
   # vim
   v = "nvim";
+  vi = "nvim";
   nv = "nvim";
 
 }
