@@ -109,7 +109,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
   # Enable flakes and nix command line
   nix.settings.experimental-features = [
     "nix-command"
@@ -128,6 +127,13 @@
 
   # List services that you want to enable:
   services.fprintd.enable = true;
+  security = {
+    pam.services = {
+      sudo.fprintAuth = true;
+      gdm-fingerprint.fprintAuth = true;
+      hyprlock.fprintAuth = true;
+    };
+  };
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 

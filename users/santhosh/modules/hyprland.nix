@@ -36,6 +36,7 @@
                         gesture = 3, horizontal, workspace
 
                         bind = $mainMod, Return, exec, ghostty
+                        bind = $mainMod, B, exec, firefox
                         bind = $mainMod, W, killactive
                         bind = $mainMod, Q, exit
                         bind = $mainMod, E, exec, nautilus
