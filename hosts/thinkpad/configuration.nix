@@ -151,12 +151,33 @@
 
   # List services that you want to enable:
   services.fprintd.enable = true;
+  services.fprintd.tod = {
+    enable = true;
+    driver = pkgs.libfprint-2-tod1-goodix;
+  };
   security = {
-    pam.services = {
-      sudo.fprintAuth = true;
-      gdm-fingerprint.fprintAuth = true;
-      hyprlock.fprintAuth = true;
+    polkit.enable = true;
+    polkit.extraConfig = ''
+      polkit.addRule(function(action, subject) {
+        if (action.id == "net.reactivated.fprint.device.enroll" ||
+            action.id == "net.reactivated.fprint.device.verify") {
+          return polkit.Result.YES;
+        }
+      });
+    '';
+    pam.services.hyprlock = {
+      enable = true;
+      #fprintAuth = true;
+      text = ''
+        auth       sufficient ${pkgs.fprintd}/lib/security/pam_fprintd.so timeout=10
+        auth       required   pam_unix.so try_first_pass nullok
+
+        account    required   pam_unix.so
+        password   required   pam_unix.so
+        session    required   pam_unix.so
+      '';
     };
+
   };
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;

@@ -20,6 +20,7 @@
       networkmanagerapplet
       gh
       gemini-cli
+      hyprlock
     ];
   };
 
@@ -33,7 +34,9 @@
     };
 
     home-manager.enable = true;
-
+    hyprlock = {
+      enable = true;
+    };
   };
 
   imports = [
