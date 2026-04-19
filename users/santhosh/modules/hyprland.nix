@@ -12,9 +12,12 @@
                   $mainMod = SUPER
                   $ipc = noctalia-shell ipc call
 
+
                   env = XDG_CURRENT_DESKTOP,Hyprland
                   env = XDG_SESSION_TYPE,wayland
                   env = NIXOS_OZONE_WL,1
+                  env = GDK_BACKEND,wayland
+
                   monitor = ,preferred,auto,1.25
 
                   input {
@@ -54,9 +57,25 @@
                   bind = $mainMod, 2, workspace, 2
                   bind = $mainMod, 3, workspace, 3
                   bind = $mainMod, 4, workspace, 4
-
+                  bind = $mainMod, 5, workspace, 5
+                  
                   bind = $mainMod SHIFT, 1, movetoworkspace, 1
                   bind = $mainMod SHIFT, 2, movetoworkspace, 2
+
+
+                  ## system key bind
+                  bind = , XF86AudioRaiseVolume, exec, $ipc volume increase
+                  bind = , XF86AudioLowerVolume, exec, $ipc volume decrease
+                  bind = , XF86AudioMute, exec, $ipc volume muteOutput
+                  bind = , XF86AudioMicMute, exec, $ipc volume muteInput
+
+                  bind = , XF86MonBrightnessUp, exec, brightnessctl set +5%
+                  bind = , XF86MonBrightnessDown, exec, brightnessctl set 5%-
+
+                  bind = , XF86AudioPlay, exec, $ipc media playPause
+                  bind = , XF86AudioNext, exec, $ipc media next
+                  bind = , XF86AudioPrev, exec, $ipc media previous
+
 
                   general {
                     layout = dwindle

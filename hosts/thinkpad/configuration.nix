@@ -165,6 +165,8 @@
         }
       });
     '';
+    pam.services.polkit-1.fprintAuth = true;
+
     pam.services.hyprlock = {
       enable = true;
       #fprintAuth = true;

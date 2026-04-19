@@ -15,7 +15,7 @@
 
   # nix
   d = "cd /etc/nixos-config/";
-  dv = "np && nvim .";
+  dv = "cd /etc/nixos-config/ && nvim .";
 
   # vim
   v = "nvim";

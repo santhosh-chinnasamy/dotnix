@@ -21,6 +21,7 @@
       gh
       gemini-cli
       hyprlock
+      hyprpolkitagent
     ];
   };
 
