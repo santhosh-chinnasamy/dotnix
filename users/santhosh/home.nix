@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -22,6 +23,7 @@
       gemini-cli
       hyprlock
       hyprpolkitagent
+      grimblast
     ];
   };
 
@@ -38,6 +40,8 @@
     hyprlock = {
       enable = true;
     };
+    #direnv.enable = true;
+    #nix-index.enable = true;
   };
 
   imports = [

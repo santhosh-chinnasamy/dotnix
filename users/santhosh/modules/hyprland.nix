@@ -43,7 +43,7 @@
                   bind = $mainMod, E, exec, nautilus
                   bind = $mainMod, Space, exec, $ipc launcher toggle
                   bind = ALT CTRL, C, exec, $ipc launcher clipboard
-                  bind = $mainMod, V, togglefloating
+                  bind = $mainMod, U, togglefloating
                   bind = $mainMod, P, pseudo
                   bind = $mainMod, J, togglesplit
                   bind = $mainMod, F, fullscreen
@@ -58,10 +58,22 @@
                   bind = $mainMod, 3, workspace, 3
                   bind = $mainMod, 4, workspace, 4
                   bind = $mainMod, 5, workspace, 5
+                  bind = $mainMod SHIFT, 6, movetoworkspace, 6
+                  bind = $mainMod SHIFT, 7, movetoworkspace, 7
+                  bind = $mainMod SHIFT, 8, movetoworkspace, 8
+                  bind = $mainMod SHIFT, 9, movetoworkspace, 9
+                  bind = $mainMod SHIFT, 0, movetoworkspace, 10
                   
                   bind = $mainMod SHIFT, 1, movetoworkspace, 1
                   bind = $mainMod SHIFT, 2, movetoworkspace, 2
-
+                  bind = $mainMod SHIFT, 3, movetoworkspace, 3
+                  bind = $mainMod SHIFT, 4, movetoworkspace, 4
+                  bind = $mainMod SHIFT, 5, movetoworkspace, 5
+                  bind = $mainMod SHIFT, 6, movetoworkspace, 6
+                  bind = $mainMod SHIFT, 7, movetoworkspace, 7
+                  bind = $mainMod SHIFT, 8, movetoworkspace, 8
+                  bind = $mainMod SHIFT, 9, movetoworkspace, 9
+                  bind = $mainMod SHIFT, 0, movetoworkspace, 10
 
                   ## system key bind
                   bind = , XF86AudioRaiseVolume, exec, $ipc volume increase
@@ -76,15 +88,21 @@
                   bind = , XF86AudioNext, exec, $ipc media next
                   bind = , XF86AudioPrev, exec, $ipc media previous
 
+                  # clipboard
+                  bind = SHIFT, Print, exec, grimblast copy screen
+                  bind = SHIFT, code:634, exec, grimblast copy area
+
+                  # Copy / Paste
+                  bindd = SUPER, C, Universal copy, sendshortcut, CTRL, Insert,
+                  bindd = SUPER, V, Universal paste, sendshortcut, SHIFT, Insert,
+                  bindd = SUPER, X, Universal cut, sendshortcut, CTRL, X,
+
+
                   # full screen + notify
                   bind = , Print, exec, sh -c 'FILE=~/Pictures/Screenshots_$(date +%Y-%m-%d_%H-%M-%S).png && grimblast save screen $FILE && notify-send "Screenshot saved"'
 
                   # area select + notify
                   bind = , code:634, exec, sh -c 'FILE=~/Pictures/Screenshots_$(date +%Y-%m-%d_%H-%M-%S).png && grimblast save area $FILE && notify-send "Screenshot saved"'
-
-                  # clipboard
-                  bind = SHIFT, Print, exec, grimblast copy screen
-                  bind = SHIFT, code:634, exec, grimblast copy area
 
                   general {
                     layout = dwindle
@@ -122,7 +140,4 @@
       }
     '';
   };
-  # https://chatgpt.com/s/t_69e275dfd3dc81918dfb117583d6a925
-  # https://chatgpt.com/s/t_69e275bf7cbc8191afea0b5d95f44a02
-
 }
