@@ -76,6 +76,15 @@
                   bind = , XF86AudioNext, exec, $ipc media next
                   bind = , XF86AudioPrev, exec, $ipc media previous
 
+                  # full screen + notify
+                  bind = , Print, exec, sh -c 'FILE=~/Pictures/Screenshots_$(date +%Y-%m-%d_%H-%M-%S).png && grimblast save screen $FILE && notify-send "Screenshot saved"'
+
+                  # area select + notify
+                  bind = , code:634, exec, sh -c 'FILE=~/Pictures/Screenshots_$(date +%Y-%m-%d_%H-%M-%S).png && grimblast save area $FILE && notify-send "Screenshot saved"'
+
+                  # clipboard
+                  bind = SHIFT, Print, exec, grimblast copy screen
+                  bind = SHIFT, code:634, exec, grimblast copy area
 
                   general {
                     layout = dwindle
