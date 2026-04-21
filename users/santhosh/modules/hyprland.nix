@@ -18,7 +18,7 @@
                   env = NIXOS_OZONE_WL,1
                   env = GDK_BACKEND,wayland
 
-                  monitor = ,preferred,auto,1.25
+                  monitor = ,preferred,auto,1.5
 
                   input {
                     kb_layout = us
