@@ -18,6 +18,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -26,6 +30,7 @@
       nixpkgs,
       home-manager,
       nixos-hardware,
+      nix-index-database,
       ...
     }@inputs:
     {
@@ -36,6 +41,8 @@
           ./hosts/thinkpad/configuration.nix
           ./modules/packages/cli.nix
           ./modules/packages/desktop.nix
+          nix-index-database.nixosModules.default
+          { programs.nix-index-database.comma.enable = true; }
 
           # hardware specific modules
           # lenovo-thinkpad-e14-intel gen 7 modules not available as of now.

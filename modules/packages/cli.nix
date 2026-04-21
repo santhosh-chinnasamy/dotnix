@@ -20,6 +20,7 @@
     fd
     eza
     just
+    comma
   ];
 
   # set default editor as neovim
