@@ -25,4 +25,15 @@
 
   # set default editor as neovim
   environment.variables.EDITOR = "nvim";
+
+  environment.etc = {
+    "1password/custom_allowed_browsers" = {
+      text = ''
+        firefox
+        zen
+      '';
+      mode = "0755";
+    };
+  };
+
 }
