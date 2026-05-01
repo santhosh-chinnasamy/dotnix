@@ -4,7 +4,7 @@
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (pkgs.lib.getName pkg) [
-      "_11password"
+      "_1password"
       "_1password-gui"
     ];
 
