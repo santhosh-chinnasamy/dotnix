@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   inputs,
   ...
@@ -10,6 +11,15 @@
     stateVersion = "25.11";
 
     shellAliases = import ./config/aliases.nix;
+
+    pointerCursor = {
+      gtk.enable = true;
+      x11.enable = true;
+      name = "catppuccin-mocha-dark-cursors";
+      package = pkgs.catppuccin-cursors.mochaDark;
+      size = 24;
+      hyprcursor.enable = true;
+    };
 
     packages = with pkgs; [
       telegram-desktop
@@ -28,6 +38,10 @@
   };
 
   fonts.fontconfig.enable = true;
+  gtk = {
+    enable = true;
+    gtk4.theme = config.gtk.theme;
+  };
   programs = {
     bash.enable = true;
     git = {
