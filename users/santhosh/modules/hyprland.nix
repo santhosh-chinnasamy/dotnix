@@ -83,7 +83,9 @@
 
                   ## system key bind
                   bind = , XF86AudioRaiseVolume, exec, $ipc volume increase
-                  bind = , XF86AudioLowerVolume, exec, $ipc volume decrease bind = , XF86AudioMute, exec, $ipc volume muteOutput bind = , XF86AudioMicMute, exec, $ipc volume muteInput
+                  bind = , XF86AudioLowerVolume, exec, $ipc volume increase
+                  bind = , XF86AudioMute, exec, $ipc volume muteOutput
+                  bind = , XF86AudioMicMute, exec, $ipc volume muteInput
 
                   bind = , XF86MonBrightnessUp, exec, brightnessctl set +5%
                   bind = , XF86MonBrightnessDown, exec, brightnessctl set 5%-
