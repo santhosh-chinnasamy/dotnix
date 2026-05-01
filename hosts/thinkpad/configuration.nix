@@ -110,10 +110,19 @@
   };
 
   # Enable flakes and nix command line
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    auto-optimise-store = true;
+  };
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    randomizedDelaySec = "45min";
+    options = "--delete-older-than 30d";
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
