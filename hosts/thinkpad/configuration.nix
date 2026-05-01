@@ -54,14 +54,6 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
-      xdg-desktop-portal-hyprland
-    ];
-  };
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -79,16 +71,8 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.santhosh = {
     isNormalUser = true;
@@ -98,9 +82,7 @@
       "wheel"
       "video"
     ];
-    packages = with pkgs; [
-      #  thunderbird
-    ];
+    packages = with pkgs; [ ];
   };
 
   users.users.lisasri = {
@@ -117,12 +99,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (pkgs.lib.getName pkg) [
-      "1password-cli"
-      "1password-gui"
-    ];
 
   programs = {
     _1password.enable = true;

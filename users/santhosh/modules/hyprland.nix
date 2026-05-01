@@ -18,6 +18,11 @@
                   env = NIXOS_OZONE_WL,1
                   env = GDK_BACKEND,wayland
 
+                  env = HYPRCURSOR_THEME,catppuccin-mocha-dark-cursors
+                  env = HYPRCURSOR_SIZE,24
+                  env = XCURSOR_THEME,catppuccin-mocha-dark-cursors
+                  env = XCURSOR_SIZE,24
+
                   monitor = ,preferred,auto,1.5
 
                   input {
@@ -58,11 +63,12 @@
                   bind = $mainMod, 3, workspace, 3
                   bind = $mainMod, 4, workspace, 4
                   bind = $mainMod, 5, workspace, 5
-                  bind = $mainMod SHIFT, 6, movetoworkspace, 6
-                  bind = $mainMod SHIFT, 7, movetoworkspace, 7
-                  bind = $mainMod SHIFT, 8, movetoworkspace, 8
-                  bind = $mainMod SHIFT, 9, movetoworkspace, 9
-                  bind = $mainMod SHIFT, 0, movetoworkspace, 10
+
+                  bind = $mainMod, 6, workspace, 6
+                  bind = $mainMod, 7, workspace, 7
+                  bind = $mainMod, 8, workspace, 8
+                  bind = $mainMod, 9, workspace, 9
+                  bind = $mainMod, 0, workspace, 10
                   
                   bind = $mainMod SHIFT, 1, movetoworkspace, 1
                   bind = $mainMod SHIFT, 2, movetoworkspace, 2
@@ -77,9 +83,7 @@
 
                   ## system key bind
                   bind = , XF86AudioRaiseVolume, exec, $ipc volume increase
-                  bind = , XF86AudioLowerVolume, exec, $ipc volume decrease
-                  bind = , XF86AudioMute, exec, $ipc volume muteOutput
-                  bind = , XF86AudioMicMute, exec, $ipc volume muteInput
+                  bind = , XF86AudioLowerVolume, exec, $ipc volume decrease bind = , XF86AudioMute, exec, $ipc volume muteOutput bind = , XF86AudioMicMute, exec, $ipc volume muteInput
 
                   bind = , XF86MonBrightnessUp, exec, brightnessctl set +5%
                   bind = , XF86MonBrightnessDown, exec, brightnessctl set 5%-

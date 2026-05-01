@@ -25,11 +25,4 @@
 
   # set default editor as neovim
   environment.variables.EDITOR = "nvim";
-  fonts = {
-    packages = with pkgs; [ nerd-fonts.jetbrains-mono ];
-
-    fontconfig.defaultFonts = {
-      monospace = [ "JetBrainsMono Nerd Font" ];
-    };
-  };
 }
