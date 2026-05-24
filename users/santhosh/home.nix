@@ -34,6 +34,8 @@
       hyprlock
       hyprpolkitagent
       grimblast
+      hyprpaper
+      audacity
     ];
   };
 
@@ -57,6 +59,8 @@
     #direnv.enable = true;
     #nix-index.enable = true;
   };
+
+  services.hyprpaper.enable = true;
 
   imports = [
     ./modules/hyprland.nix
