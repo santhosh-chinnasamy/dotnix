@@ -36,6 +36,7 @@
       grimblast
       hyprpaper
       audacity
+      inputs.antigravity-nix.packages.${pkgs.system}.default
     ];
   };
 
