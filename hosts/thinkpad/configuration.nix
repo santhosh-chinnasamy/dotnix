@@ -54,6 +54,11 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  services.gnome = {
+    gnome-keyring.enable = true;
+  };
+  programs.seahorse.enable = true;
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -164,7 +169,13 @@
         session    required   pam_unix.so
       '';
     };
+    pam.services.gdm.enableGnomeKeyring = true;
 
+    pam.services.gdm-password.enableGnomeKeyring = true;
+  };
+
+  environment.sessionVariables = {
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
   };
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
