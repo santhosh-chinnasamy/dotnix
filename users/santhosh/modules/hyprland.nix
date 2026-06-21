@@ -24,6 +24,7 @@
                   env = XCURSOR_SIZE,24
 
                   monitor = ,preferred,auto,1.5
+                  #monitor = DP-1, 2560x1440@60, 0x0, 1, extend, eDP-1
 
                   input {
                     kb_layout = us
@@ -52,6 +53,7 @@
                   bind = $mainMod, P, pseudo
                   bind = $mainMod, J, togglesplit
                   bind = $mainMod, F, fullscreen
+                 # bind = $mainMod, TAB, overview:toggle
 
                   bind = $mainMod, left, movefocus, l
                   bind = $mainMod, right, movefocus, r

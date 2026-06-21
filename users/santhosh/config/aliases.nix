@@ -11,6 +11,7 @@
   gp = "git push";
   ga = "git add";
   gc = "git commit";
+  gd = "git diff";
   lg = "lazygit";
 
   # nix
@@ -21,5 +22,9 @@
   v = "nvim .";
   vi = "nvim";
   nv = "nvim";
+
+  # package managers
+  y = "yarn";
+  nr = "npm run";
 
 }

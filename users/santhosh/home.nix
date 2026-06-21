@@ -37,6 +37,7 @@
       hyprpaper
       audacity
       inputs.antigravity-nix.packages.${pkgs.system}.default
+      inputs.codex-cli-nix.packages.${pkgs.system}.default
     ];
   };
 

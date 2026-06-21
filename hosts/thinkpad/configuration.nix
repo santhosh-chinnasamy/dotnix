@@ -176,9 +176,22 @@
 
   environment.sessionVariables = {
     SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
+    XDG_DATA_DIRS = [
+      "$XDG_DATA_DIRS"
+      "/var/lib/flatpak/exports/share"
+      "/home/santhosh/.local/share/flatpak/exports/share"
+    ];
   };
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+
+  # Enable Flatpak
+  services.flatpak = {
+    enable = true;
+  };
+
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.config.common.default = "gtk";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
