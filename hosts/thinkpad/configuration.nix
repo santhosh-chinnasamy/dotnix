@@ -179,7 +179,6 @@
     XDG_DATA_DIRS = [
       "$XDG_DATA_DIRS"
       "/var/lib/flatpak/exports/share"
-      "/home/santhosh/.local/share/flatpak/exports/share"
     ];
   };
   # Enable the OpenSSH daemon.

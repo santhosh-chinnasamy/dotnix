@@ -21,6 +21,8 @@
     eza
     just
     comma
+    wlr-randr
+    #  hyprland-qutils
   ];
 
   # set default editor as neovim

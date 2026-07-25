@@ -9,6 +9,9 @@
     username = "santhosh";
     homeDirectory = "/home/santhosh";
     stateVersion = "25.11";
+    sessionVariables = {
+      XDG_DATA_DIRS = "$XDG_DATA_DIRS:$HOME/.local/share/flatpak/exports/share";
+    };
 
     shellAliases = import ./config/aliases.nix;
 

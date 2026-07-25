@@ -1,9 +1,13 @@
-{ pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
-  firefox
-  vlc
-  libreoffice-fresh
-  vscodium
+    firefox
+    vlc
+    libreoffice-fresh
+    vscodium
+    ## Manage displays (extend, mirror)
+    nwg-displays
+    arandr
   ];
 
   programs.hyprland = {
