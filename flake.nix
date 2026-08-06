@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -32,6 +34,7 @@
     {
       self,
       nixpkgs,
+      nix-darwin,
       ...
     }@inputs:
     {
@@ -40,6 +43,11 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/thinkpad/default.nix ];
+      };
+      
+      darwinConfigurations.work-mac = nix-darwin.lib.darwinSystem {
+      specialArgs = { inherit inputs; };
+      modules = [ ./hosts/work-mac/default.nix ];
       };
     };
 }
