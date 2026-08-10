@@ -1,32 +1,57 @@
 { pkgs, inputs, ... }: {
   imports = [
-    #../../modules/packages/cli.nix # Reuse existing CLI tools
+    inputs.mac-app-util.darwinModules.default
     inputs.home-manager.darwinModules.home-manager
   ];
 
-  # System options for nix-darwin
-  # services.nix-daemon.enable = true;
+  # Define the primary macOS user for Homebrew and system activation
+  system.primaryUser = "santhoshc";
+
+  # Enable Nix daemon & experimental features
   nix.enable = true;
-  programs.zsh.enable = true;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
-  # Target platform (Use "x86_64-darwin" if using an Intel Mac)
+  # System platform and unfree packages configuration
   nixpkgs.hostPlatform = "aarch64-darwin";
-
-  # Allow unfree software if needed
   nixpkgs.config.allowUnfree = true;
 
-users.users.santhosh = {
+  # Enable system Zsh shell
+  programs.zsh.enable = true;
+
+  # Declarative Homebrew management for macOS GUI Applications
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      upgrade = true;
+      cleanup = "none";
+    };
+    casks = [
+      "zoom"
+      "slack"
+      "visual-studio-code"
+    ];
+  };
+
+  # Define system user matching `whoami`
+  users.users.santhoshc = {
     name = "santhoshc";
     home = "/Users/santhoshc";
   };
 
+  # Home Manager integration
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    users.santhosh = import ../../users/santhosh/work-mac-home.nix;
+    users.santhoshc = import ../../users/santhosh/work-mac-home.nix;
   };
 
-security.pam.services.sudo_local.touchIdAuth = true;
+  # Enable Touch ID authentication for sudo
+  security.pam.services.sudo_local.touchIdAuth = true;
+
   system.stateVersion = 6;
 }
