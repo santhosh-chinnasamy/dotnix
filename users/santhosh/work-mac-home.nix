@@ -24,23 +24,52 @@
       nil
       statix
       nixfmt
+      eza
+      bat
+      direnv
+      devenv
+      comma
+      ripgrep
+      claude-code
+      _1password-cli
+      curl
+      wget
     ];
   };
 
   programs = {
+
     zsh = {
       enable = true;
+      enableCompletion = true;
       initContent = ''
-        eval "$(${pkgs.starship}/bin/starship init zsh)"
-      '';
+       eval "$(${pkgs.starship}/bin/starship init zsh)"
+       #eval "$(direnv hook zsh)"
+       eval "$(devenv hook zsh)"
+       '';
     };
 
     home-manager.enable = true;
     neovim.enable = true;
     lazyvim.enable = true;
+    direnv ={
+      enable = true;
+       nix-direnv.enable = true;
+    };
+
+    git = {
+      enable = true;
+      settings = {
+        user = {
+          name = "Santhosh C";
+          email = "csesanthosh15@gmail.com";
+        };
+      };
+    };
 
     starship = {
       enable = true;
+      enableZshIntegration = true;
       settings = {
         character = {
           success_symbol = "[](bold green) ";

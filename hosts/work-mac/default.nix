@@ -29,10 +29,25 @@
       upgrade = true;
       cleanup = "none";
     };
+ 
+    taps = [
+      {
+        name = "TabularisDB/tabularis";
+        trusted = true;
+      }
+    ];
+
     casks = [
       "zoom"
       "slack"
       "visual-studio-code"
+      "ghostty"
+      "tabularis"
+      "dbeaver-community"
+      "microsoft-teams"
+      "cursor"
+      "maccy"
+      "bruno"
     ];
   };
 
@@ -46,9 +61,14 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "backup";
     extraSpecialArgs = { inherit inputs; };
     users.santhoshc = import ../../users/santhosh/work-mac-home.nix;
   };
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
 
   # Enable Touch ID authentication for sudo
   security.pam.services.sudo_local.touchIdAuth = true;

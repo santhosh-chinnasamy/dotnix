@@ -28,6 +28,12 @@
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lazyvim.url = "github:pfassina/lazyvim-nix";
+    mac-app-util.url = "github:hraban/mac-app-util";
+    homebrew = {
+      url = "github:koalalorenzo/home-manager-brew";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -44,10 +50,10 @@
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/thinkpad/default.nix ];
       };
-      
+
       darwinConfigurations.work-mac = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit inputs; };
-      modules = [ ./hosts/work-mac/default.nix ];
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/work-mac/default.nix ];
       };
     };
 }
