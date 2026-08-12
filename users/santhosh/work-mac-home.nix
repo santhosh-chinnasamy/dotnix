@@ -42,19 +42,25 @@
     zsh = {
       enable = true;
       enableCompletion = true;
+      syntaxHighlighting.enable = true;
+      oh-my-zsh = {
+        enable = true;
+        plugins = [ "git" ];
+        #theme = "robbyrussell";
+      };
       initContent = ''
-       eval "$(${pkgs.starship}/bin/starship init zsh)"
-       #eval "$(direnv hook zsh)"
-       eval "$(devenv hook zsh)"
-       '';
+         eval "$(${pkgs.starship}/bin/starship init zsh)"
+         #eval "$(direnv hook zsh)"
+         eval "$(devenv hook zsh)"
+         '';
     };
 
     home-manager.enable = true;
     neovim.enable = true;
     lazyvim.enable = true;
-    direnv ={
+    direnv = {
       enable = true;
-       nix-direnv.enable = true;
+      nix-direnv.enable = true;
     };
 
     git = {
