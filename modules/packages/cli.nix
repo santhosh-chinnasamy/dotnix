@@ -23,6 +23,7 @@
     comma
     wlr-randr
     #  hyprland-qutils
+    devenv
   ];
 
   # set default editor as neovim

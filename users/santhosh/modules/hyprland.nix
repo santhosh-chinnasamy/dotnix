@@ -85,7 +85,7 @@
 
                   ## system key bind
                   bind = , XF86AudioRaiseVolume, exec, $ipc volume increase
-                  bind = , XF86AudioLowerVolume, exec, $ipc volume increase
+                  bind = , XF86AudioLowerVolume, exec, $ipc volume decrease
                   bind = , XF86AudioMute, exec, $ipc volume muteOutput
                   bind = , XF86AudioMicMute, exec, $ipc volume muteInput
 
