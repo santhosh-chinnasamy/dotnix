@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+      url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     _1password-shell-plugins.url = "github:1Password/shell-plugins";
@@ -40,6 +40,7 @@
     {
       self,
       nixpkgs,
+      nixos-hardware,
       ...
     }@inputs:
     {

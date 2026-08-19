@@ -122,12 +122,12 @@
     ];
     auto-optimise-store = true;
   };
-  nix.gc = {
+/*   nix.gc = {
     automatic = true;
     dates = "weekly";
     randomizedDelaySec = "45min";
     options = "--delete-older-than 30d";
-  };
+  }; */
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

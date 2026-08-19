@@ -10,7 +10,7 @@
 
     extraConfig = ''
                   $mainMod = SUPER
-                  $ipc = noctalia-shell ipc call
+                  $ipc = noctalia ipc call
 
 
                   env = XDG_CURRENT_DESKTOP,Hyprland
@@ -51,7 +51,6 @@
                   bind = ALT CTRL, C, exec, $ipc launcher clipboard
                   bind = $mainMod, U, togglefloating
                   bind = $mainMod, P, pseudo
-                  bind = $mainMod, J, togglesplit
                   bind = $mainMod, F, fullscreen
                  # bind = $mainMod, TAB, overview:toggle
 
