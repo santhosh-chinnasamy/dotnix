@@ -1,0 +1,8 @@
+require("config.environment")
+require("config.monitors")
+require("config.input")
+require("config.general")
+require("config.decoration")
+require("config.animations")
+require("config.misc")
+require("config.keybinds")
