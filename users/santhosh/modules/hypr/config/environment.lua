@@ -8,10 +8,11 @@ hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("XCURSOR_THEME", "catppuccin-mocha-dark-cursors")
 hl.env("XCURSOR_SIZE", "24")
 
--- Export the Wayland display to systemd so Noctalia can start
 hl.config({
     exec_once = {
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
         "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
+        "systemctl --user start hyprland-session.target",
+        "systemctl --user start noctalia.service",
     },
 })

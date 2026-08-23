@@ -103,7 +103,7 @@
         position = "bottom";
         #displayMode = "auto_hide";
       };
-      esktopWidgets = {
+      desktopWidgets = {
         enabled = true;
         overviewEnabled = true;
         gridSnap = false;
