@@ -34,6 +34,7 @@
       _1password-cli
       curl
       wget
+      glab
     ];
   };
 
