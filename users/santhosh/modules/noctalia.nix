@@ -31,18 +31,18 @@
           capsule_thickness = 0.69;
           margin_ends = 0;
           start = [
-            "workspaces"
             "launcher"
+            "workspaces"
             "active_window"
           ];
           center = [
-            "media"
+            # "media"
             "clock"
           ];
           end = [
             "tray"
+            "clipboard"
             "sysmon"
-            "notifications"
             "network"
             "bluetooth"
             "volume"
@@ -50,6 +50,8 @@
             "power_profile"
             "battery"
             "control-center"
+            "notifications"
+            "session"
           ];
         };
       };
@@ -65,12 +67,12 @@
       };
 
       dock = {
-        enabled = true;
+        enabled = false;
         position = "bottom";
       };
 
       # Keep desktop widgets off until the v5 layout is rebuilt explicitly.
-      desktop_widgets.enabled = false;
+      desktop_widgets.enabled = true;
     };
 
     systemd.enable = true;
@@ -79,8 +81,9 @@
   systemd.user.targets.hyprland-session = {
     Unit = {
       Description = "Hyprland session target";
-      Requires = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
+      BindsTo = [ "graphical-session.target" ];
+      Wants = [ "graphical-session-pre.target" ];
+      After = [ "graphical-session-pre.target" ];
     };
   };
 
@@ -88,6 +91,10 @@
     Unit = {
       PartOf = [ "hyprland-session.target" ];
       After = [ "hyprland-session.target" ];
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+    Service = {
+      RestartSec = 1;
     };
     Install.WantedBy = lib.mkAfter [ "hyprland-session.target" ];
   };

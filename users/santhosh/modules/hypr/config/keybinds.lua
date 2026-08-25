@@ -7,6 +7,7 @@ local ipc = constants.ipc
 hl.bind(main_mod .. " + Return", hl.dsp.exec_cmd("ghostty"))
 hl.bind(main_mod .. " + B", hl.dsp.exec_cmd("zen"))
 hl.bind(main_mod .. " + E", hl.dsp.exec_cmd("nautilus"))
+hl.bind(main_mod .. " + I", hl.dsp.exec_cmd("codium"))
 
 -- Window Management
 hl.bind(main_mod .. " + W", hl.dsp.window.close())
@@ -15,10 +16,10 @@ hl.bind(main_mod .. " + U", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(main_mod .. " + P", hl.dsp.window.pseudo())
 hl.bind(main_mod .. " + F", hl.dsp.window.fullscreen())
 -- Focus
-hl.bind(main_mod .. " + left", hl.dsp.focus({ direction = "l" }))
-hl.bind(main_mod .. " + right", hl.dsp.focus({ direction = "r" }))
-hl.bind(main_mod .. " + up", hl.dsp.focus({ direction = "u" }))
-hl.bind(main_mod .. " + down", hl.dsp.focus({ direction = "d" }))
+hl.bind(main_mod .. " + left", hl.dsp.focus({ direction = "left" }))
+hl.bind(main_mod .. " + right", hl.dsp.focus({ direction = "right" }))
+hl.bind(main_mod .. " + up", hl.dsp.focus({ direction = "up" }))
+hl.bind(main_mod .. " + down", hl.dsp.focus({ direction = "down" }))
 
 -- Workspaces
 for i = 1, 9 do
@@ -48,7 +49,7 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
 
 -- Clipboard & Screenshots
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd("grimblast copy screen"))
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd("sh -c grimblast copy screen && notify-send \"Copied Screen\""))
 hl.bind("SHIFT + code:634", hl.dsp.exec_cmd("grimblast copy area"))
 
 -- Full screen + notify
