@@ -39,6 +39,8 @@
       grimblast
       hyprpaper
       audacity
+      nushell
+      vscode
       inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-ide # IDE
       inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli # CLI

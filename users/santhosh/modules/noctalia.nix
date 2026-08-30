@@ -30,6 +30,7 @@
           position = "top";
           capsule_thickness = 0.69;
           margin_ends = 0;
+          radius = 0;
           start = [
             "launcher"
             "workspaces"
