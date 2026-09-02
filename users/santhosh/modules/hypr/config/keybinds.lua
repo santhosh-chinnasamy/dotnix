@@ -24,10 +24,11 @@ hl.bind(main_mod .. " + down", hl.dsp.focus({ direction = "down" }))
 -- Workspaces
 for i = 1, 9 do
     hl.bind(main_mod .. " + " .. tostring(i), hl.dsp.focus({ workspace = tostring(i) }))
-    hl.bind(main_mod .. " + SHIFT + " .. tostring(i), hl.dsp.exec_cmd("hyprctl dispatch movetoworkspace " .. tostring(i)))
+    hl.bind(main_mod .. " + SHIFT + " .. tostring(i), hl.dsp.window.move({ workspace = tostring(i), follow = true }))
 end
 hl.bind(main_mod .. " + 0", hl.dsp.focus({ workspace = "10" }))
-hl.bind(main_mod .. " + SHIFT + 0", hl.dsp.exec_cmd("hyprctl dispatch movetoworkspace 10"))
+hl.bind(main_mod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = 10, follow = true }))
+
 
 -- Noctalia Core Binds
 hl.bind(main_mod .. " + Space", hl.dsp.exec_cmd(ipc .. "panel-toggle launcher"))
