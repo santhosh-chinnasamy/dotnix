@@ -24,6 +24,8 @@
     wlr-randr
     #  hyprland-qutils
     devenv
+    usbutils
+    picocom
   ];
 
   # set default editor as neovim

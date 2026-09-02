@@ -6,8 +6,7 @@
     libreoffice-fresh
     vscodium
     ## Manage displays (extend, mirror)
-    nwg-displays
-    arandr
+    wdisplays
   ];
 
   programs.hyprland = {

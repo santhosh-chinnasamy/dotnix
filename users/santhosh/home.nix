@@ -39,8 +39,14 @@
       grimblast
       hyprpaper
       audacity
-      inputs.antigravity-nix.packages.${pkgs.system}.default
-      inputs.codex-cli-nix.packages.${pkgs.system}.default
+      nushell
+      vscode
+      inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-ide # IDE
+      inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli # CLI
+      inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+      chromium
     ];
   };
 
