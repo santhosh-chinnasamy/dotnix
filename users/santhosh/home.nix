@@ -73,8 +73,13 @@
 
   services.hyprpaper.enable = true;
 
+  # Active Wayland desktop shell: "dms" | "noctalia" | "none"
+  custom.desktop.shell = "dms";
+
   imports = [
+    ./modules/shell.nix
     ./modules/hyprland.nix
+    ./modules/dms.nix
     ./modules/noctalia.nix
     ./modules/1password.nix
     ./modules/zen.nix

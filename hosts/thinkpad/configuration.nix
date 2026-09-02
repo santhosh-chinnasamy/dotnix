@@ -199,6 +199,27 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # VM Variant settings for safe testing with nixos-rebuild build-vm
+  /*
+  virtualisation.vmVariant = {
+    virtualisation = {
+      memorySize = 4096;
+      cores = 4;
+      graphics = true;
+      qemu.options = [
+        "-vga" "virtio"
+      ];
+    };
+    services.displayManager.defaultSession = "hyprland";
+    services.displayManager.autoLogin = {
+      enable = true;
+      user = "santhosh";
+    };
+    users.users.santhosh.password = "password";
+    users.users.root.password = "password";
+  };
+  */
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
