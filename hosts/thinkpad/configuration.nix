@@ -52,8 +52,8 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   services.gnome = {
     gnome-keyring.enable = true;
@@ -123,12 +123,14 @@
     ];
     auto-optimise-store = true;
   };
-/*   nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    randomizedDelaySec = "45min";
-    options = "--delete-older-than 30d";
-  }; */
+  /*
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      randomizedDelaySec = "45min";
+      options = "--delete-older-than 30d";
+    };
+  */
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -212,23 +214,23 @@
 
   # VM Variant settings for safe testing with nixos-rebuild build-vm
   /*
-  virtualisation.vmVariant = {
-    virtualisation = {
-      memorySize = 4096;
-      cores = 4;
-      graphics = true;
-      qemu.options = [
-        "-vga" "virtio"
-      ];
+    virtualisation.vmVariant = {
+      virtualisation = {
+        memorySize = 4096;
+        cores = 4;
+        graphics = true;
+        qemu.options = [
+          "-vga" "virtio"
+        ];
+      };
+      services.displayManager.defaultSession = "hyprland";
+      services.displayManager.autoLogin = {
+        enable = true;
+        user = "santhosh";
+      };
+      users.users.santhosh.password = "password";
+      users.users.root.password = "password";
     };
-    services.displayManager.defaultSession = "hyprland";
-    services.displayManager.autoLogin = {
-      enable = true;
-      user = "santhosh";
-    };
-    users.users.santhosh.password = "password";
-    users.users.root.password = "password";
-  };
   */
 
   # This value determines the NixOS release from which the default

@@ -13,7 +13,7 @@
 
   # 3. Deploy ONLY your Lua configuration
   xdg.configFile."hypr" = {
-    source = ./hypr; 
+    source = ./hypr;
     recursive = true;
   };
 }

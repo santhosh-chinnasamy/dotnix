@@ -1,6 +1,9 @@
 { pkgs, ... }: {
   # Standard groups for embedded dev
-  users.users.santhosh.extraGroups = [ "dialout" "plugdev" ];
+  users.users.santhosh.extraGroups = [
+    "dialout"
+    "plugdev"
+  ];
 
   services.udev.extraRules = ''
     # CP210x USB to UART Bridge

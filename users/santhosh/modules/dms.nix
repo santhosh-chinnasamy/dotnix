@@ -16,6 +16,9 @@ in
   config = lib.mkIf enableDms {
     programs.dank-material-shell = {
       enable = true;
+      package = (inputs.dms.lib.mkDmsShell pkgs).overrideAttrs (_: {
+        vendorHash = "sha256-gc4/HwZVT1BjupJzFvHRnLwOFYLo5ZmOZY0G1W25Y7Q=";
+      });
       systemd = {
         enable = true;
         restartIfChanged = true;

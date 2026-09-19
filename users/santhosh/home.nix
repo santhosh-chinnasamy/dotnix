@@ -16,6 +16,7 @@
     shellAliases = import ./config/aliases.nix;
 
     pointerCursor = {
+      enable = false;
       gtk.enable = true;
       x11.enable = true;
       name = "catppuccin-mocha-dark-cursors";
@@ -33,7 +34,6 @@
       brightnessctl
       networkmanagerapplet
       gh
-      gemini-cli
       hyprlock
       hyprpolkitagent
       grimblast
@@ -59,8 +59,10 @@
     bash.enable = true;
     git = {
       enable = true;
-      userName = "Santhosh C";
-      userEmail = "csesanthosh15@gmail.com";
+      settings.user = {
+        name = "Santhosh C";
+        email = "csesanthosh15@gmail.com";
+      };
     };
 
     home-manager.enable = true;

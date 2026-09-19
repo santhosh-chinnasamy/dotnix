@@ -45,7 +45,7 @@ if shell == "dms" then
   hl.bind(main_mod .. " + comma", hl.dsp.exec_cmd(ipc .. "settings focusOrToggle"))
   hl.bind(main_mod .. " + N", hl.dsp.exec_cmd(ipc .. "notifications toggle"))
   hl.bind("ALT + F4", hl.dsp.exec_cmd(ipc .. "powermenu toggle"))
-  hl.bind(main_mod .. "+ ALT + C", hl.dsp.exec_cmd(ipc .. "clipboard toggle"))
+  hl.bind(main_mod .. "+ SHIFT + C", hl.dsp.exec_cmd(ipc .. "clipboard toggle"))
   hl.bind("ALT + Tab", hl.dsp.exec_cmd(ipc .. "hypr toggleOverview"))
   hl.bind(main_mod .. " + Tab", hl.dsp.exec_cmd(ipc .. "hypr toggleOverview"))
   hl.bind(main_mod .. " + O", hl.dsp.exec_cmd(ipc .. "hypr toggleOverview"))
