@@ -1,4 +1,10 @@
-{ config, inputs, lib, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
   enableDms = config.custom.desktop.shell == "dms";
 in
@@ -21,11 +27,43 @@ in
       enableAudioWavelength = true;
       enableCalendarEvents = true;
 
+      plugins = {
+        calculator = {
+          enable = true;
+          src = pkgs.fetchFromGitHub {
+            owner = "rochacbruno";
+            repo = "DankCalculator";
+            rev = "1db5865419a40a33171a475855a59e0b8bf7187f";
+            hash = "sha256-j8C62+sevr6b+akzVSAqUVysIhb6Vbr8jnWcTXeOtE8=";
+          };
+          settings = {
+            trigger = "=";
+          };
+        };
+        modernClock = {
+          enable = true;
+          src = pkgs.fetchFromGitHub {
+            owner = "beefsizzle";
+            repo = "ModernClockDMS";
+            rev = "0d11d9fb560547a2589d59e456598f7c94847bae";
+            hash = "sha256-cD8Ho8PG8GqRBPFtgub02uIMgXVsd0P8AzTNuVYccEk=";
+          };
+        };
+      };
+
       settings = {
+        # Theming & Appearance
         currentThemeName = "dynamic";
         currentThemeCategory = "dynamic";
-        matugenScheme = "scheme-monochrome";
+        matugenScheme = "scheme-neutral";
+        widgetBackgroundColor = "sth";
+        widgetColorMode = "colorful";
         cornerRadius = 12;
+        hyprlandLayoutRadiusOverride = 12;
+        showWeekNumber = true;
+        clockFormat = "12h";
+
+        # Control Center
         controlCenterShowMicPercent = true;
         controlCenterWidgets = [
           {
@@ -74,13 +112,44 @@ in
             width = 50;
           }
         ];
+
+        # Workspaces & Launcher
         showWorkspaceIndex = true;
         showWorkspaceApps = true;
+        workspaceFollowFocus = true;
+        showOccupiedWorkspacesOnly = true;
         appIdSubstitutions = [ ];
         centeringMode = "geometric";
+        sortAppsAlphabetically = true;
         spotlightSectionViewModes = {
           apps = "grid";
         };
+        dankLauncherV2Size = "micro";
+        launcherLogoMode = "os";
+
+        # System & Battery
+        weatherEnabled = false;
+        soundLogin = true;
+        batteryChargeLimit = 80;
+        batteryNotifyChargeLimit = true;
+        batteryNotifyLow = true;
+        terminalsAlwaysDark = true;
+        lockPamExternallyManaged = true;
+
+        # Island & OSD
+        dankIslandHomeCompactTight = true;
+        dankIslandSatelliteBackground = true;
+        osdAlwaysShowValue = true;
+        osdPosition = 4;
+        osdPowerProfileEnabled = true;
+        screenPreferences = {
+          wallpaper = [ "all" ];
+        };
+        displayProfileAutoSelect = true;
+
+        # Typography & Cursor
+        fontFamily = "JetBrainsMono NF";
+        monoFontFamily = "JetBrainsMono Nerd Font";
         cursorSettings = {
           theme = "System Default";
           size = 24;
@@ -97,14 +166,8 @@ in
             cursorHideTimeout = 0;
           };
         };
-        fontFamily = "JetBrainsMono NF";
-        monoFontFamily = "JetBrainsMono Nerd Font";
-        terminalsAlwaysDark = true;
-        osdAlwaysShowValue = true;
-        osdPowerProfileEnabled = true;
-        screenPreferences = {
-          wallpaper = [ "all" ];
-        };
+
+        # Main Bar Configuration
         barConfigs = [
           {
             id = "default";
@@ -133,6 +196,7 @@ in
               {
                 id = "music";
                 enabled = true;
+                mediaSize = 0;
               }
               {
                 id = "clock";
@@ -160,15 +224,23 @@ in
                 enabled = true;
               }
               {
+                id = "colorPicker";
+                enabled = true;
+              }
+              {
+                id = "notepadButton";
+                enabled = true;
+              }
+              {
                 id = "controlCenterButton";
                 enabled = true;
               }
               {
-                id = "powerMenuButton";
+                id = "privacyIndicator";
                 enabled = true;
               }
               {
-                id = "music";
+                id = "powerMenuButton";
                 enabled = true;
               }
             ];
@@ -184,7 +256,7 @@ in
             noBackground = false;
             maximizeWidgetIcons = false;
             maximizeWidgetText = false;
-            removeWidgetPadding = true;
+            removeWidgetPadding = false;
             widgetPadding = 8;
             gothCornersEnabled = false;
             gothCornerRadiusOverride = false;
@@ -194,7 +266,7 @@ in
             borderOpacity = 1;
             borderThickness = 1;
             widgetOutlineEnabled = false;
-            widgetOutlineColor = "primary";
+            widgetOutlineColor = "surfaceText";
             widgetOutlineOpacity = 1;
             widgetOutlineThickness = 1;
             fontScale = 1;
@@ -217,10 +289,12 @@ in
             shadowColorMode = "default";
             shadowCustomColor = "#000000";
             clickThrough = false;
-            hoverPopouts = false;
+            hoverPopouts = true;
             hoverPopoutDelay = 150;
           }
         ];
+
+        # Custom Colors
         desktopClockCustomColor = {
           r = 1;
           g = 1;
@@ -247,6 +321,42 @@ in
           hslLightness = 1;
           valid = true;
         };
+
+        # Desktop Widget Instances
+        desktopWidgetInstances = [
+          {
+            id = "dw_1788370747512_0r9vaekia";
+            widgetType = "modernClock";
+            name = "Modern Clock";
+            enabled = true;
+            config = {
+              displayPreferences = [
+                "all"
+              ];
+              useThemeColors = true;
+              timeColor = "#2196f3";
+              dateColor = "#03a9f4";
+              dayColor = "#03a9f4";
+            };
+          }
+        ];
+
+        # Built-in Plugin Triggers
+        builtInPluginSettings = {
+          dms_settings_search = {
+            trigger = "?";
+          };
+          dms_clipboard_search = {
+            trigger = "cb";
+          };
+          dms_power = {
+            trigger = "pw";
+          };
+          dms_qr_generator = {
+            trigger = "qrg";
+          };
+        };
+
         configVersion = 16;
       };
     };
