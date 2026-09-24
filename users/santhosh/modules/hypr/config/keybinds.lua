@@ -67,7 +67,7 @@ if shell == "dms" then
   -- Screenshots (DMS)
   hl.bind("Print", hl.dsp.exec_cmd("dms screenshot"))
   hl.bind("SHIFT + Print", hl.dsp.exec_cmd("dms screenshot full"))
-  hl.bind("ALT + Print", hl.dsp.exec_cmd("dms screenshot window"))
+  hl.bind("ALT + Print", hl.dsp.exec_cmd("dms screenshot --no-file"))
 
 elseif shell == "noctalia" then
   -- Noctalia Core Binds

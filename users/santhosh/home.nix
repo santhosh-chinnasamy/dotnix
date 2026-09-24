@@ -47,6 +47,7 @@
       inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
       chromium
+      localsend
     ];
   };
 
