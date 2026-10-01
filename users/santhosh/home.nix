@@ -16,6 +16,7 @@
     shellAliases = import ./config/aliases.nix;
 
     pointerCursor = {
+      enable = false;
       gtk.enable = true;
       x11.enable = true;
       name = "catppuccin-mocha-dark-cursors";
@@ -33,7 +34,6 @@
       brightnessctl
       networkmanagerapplet
       gh
-      gemini-cli
       hyprlock
       hyprpolkitagent
       grimblast
@@ -47,6 +47,7 @@
       inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
       chromium
+      localsend
     ];
   };
 
@@ -59,8 +60,10 @@
     bash.enable = true;
     git = {
       enable = true;
-      userName = "Santhosh C";
-      userEmail = "csesanthosh15@gmail.com";
+      settings.user = {
+        name = "Santhosh C";
+        email = "csesanthosh15@gmail.com";
+      };
     };
 
     home-manager.enable = true;
@@ -73,8 +76,13 @@
 
   services.hyprpaper.enable = true;
 
+  # Active Wayland desktop shell: "dms" | "noctalia" | "none"
+  custom.desktop.shell = "dms";
+
   imports = [
+    ./modules/shell.nix
     ./modules/hyprland.nix
+    ./modules/dms.nix
     ./modules/noctalia.nix
     ./modules/1password.nix
     ./modules/zen.nix

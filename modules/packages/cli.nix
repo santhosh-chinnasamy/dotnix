@@ -26,6 +26,7 @@
     devenv
     usbutils
     picocom
+    docker-compose
   ];
 
   # set default editor as neovim

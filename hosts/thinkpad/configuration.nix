@@ -9,6 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./hardware-embedded.nix
+    ./virtualisation.nix
   ];
 
   # Bootloader.
@@ -52,8 +53,8 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   services.gnome = {
     gnome-keyring.enable = true;
@@ -123,12 +124,14 @@
     ];
     auto-optimise-store = true;
   };
-/*   nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    randomizedDelaySec = "45min";
-    options = "--delete-older-than 30d";
-  }; */
+  /*
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      randomizedDelaySec = "45min";
+      options = "--delete-older-than 30d";
+    };
+  */
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -170,6 +173,17 @@
         session    required   pam_unix.so
       '';
     };
+
+    pam.services.dankshell = {
+      text = ''
+        auth       sufficient ${pkgs.fprintd}/lib/security/pam_fprintd.so timeout=10
+        auth       required   pam_unix.so try_first_pass nullok
+
+        account    required   pam_unix.so
+        password   required   pam_unix.so
+        session    required   pam_unix.so
+      '';
+    };
     pam.services.gdm.enableGnomeKeyring = true;
 
     pam.services.gdm-password.enableGnomeKeyring = true;
@@ -198,6 +212,27 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # VM Variant settings for safe testing with nixos-rebuild build-vm
+  /*
+    virtualisation.vmVariant = {
+      virtualisation = {
+        memorySize = 4096;
+        cores = 4;
+        graphics = true;
+        qemu.options = [
+          "-vga" "virtio"
+        ];
+      };
+      services.displayManager.defaultSession = "hyprland";
+      services.displayManager.autoLogin = {
+        enable = true;
+        user = "santhosh";
+      };
+      users.users.santhosh.password = "password";
+      users.users.root.password = "password";
+    };
+  */
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
