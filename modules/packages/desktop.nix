@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [
     firefox
     vlc
-    libreoffice-fresh
+    libreoffice
     vscodium
     ## Manage displays (extend, mirror)
     wdisplays

@@ -34,6 +34,10 @@
       inputs.hyprland.follows = "hyprland";
     };
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

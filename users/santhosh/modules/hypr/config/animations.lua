@@ -1,6 +1,6 @@
 hl.config({
     animations = {
-        enabled = true,
+        enabled = false,
         bezier = {
             "easeOut, 0.25, 1, 0.5, 1",
         },
