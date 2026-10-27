@@ -48,6 +48,11 @@
       inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
       chromium
       localsend
+      t3code
+      cursor-cli
+      tailscale
+      opencode
+      opencode-desktop
     ];
   };
 

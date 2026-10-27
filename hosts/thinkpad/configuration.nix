@@ -114,6 +114,7 @@
       # Required for system authentication (fingerprint/password) to work
       polkitPolicyOwners = [ "santhosh" ];
     };
+    nix-ld.enable = true;
   };
 
   # Enable flakes and nix command line
