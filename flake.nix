@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -38,21 +42,30 @@
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lazyvim.url = "github:pfassina/lazyvim-nix";
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      nixos-hardware,
+      nix-darwin,
       ...
     }@inputs:
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
+
       nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/thinkpad/default.nix ];
+      };
+
+      darwinConfigurations.work-mac = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/work-mac/default.nix ];
       };
     };
 }
