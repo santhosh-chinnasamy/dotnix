@@ -29,7 +29,7 @@
       upgrade = true;
       cleanup = "none";
     };
- 
+
     taps = [
       {
         name = "TabularisDB/tabularis";
@@ -48,6 +48,9 @@
       "cursor"
       "maccy"
       "bruno"
+      "t3-code"
+      "cursor-cli"
+      "claude-code"
     ];
   };
 

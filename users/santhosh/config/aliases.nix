@@ -19,14 +19,16 @@
 
   # nix-darwin
   nd = "cd ~/.config/dotnix";
-  nds ="cd ~/.config/dotnix && sudo darwin-rebuild switch --flake .#work-mac";
+  nds = "cd ~/.config/dotnix && sudo darwin-rebuild switch --flake .#work-mac";
 
   # vim
   v = "nvim .";
   vi = "nvim";
   nv = "nvim";
 
-  ## node 
+  ## node
   nr = "npm run";
+  nrd = "npm run start:dev";
   nrt = "npm run test";
+  nrts = "npm test -- $(git diff --name-only --cached | grep -E '\.(test|spec)\.(js|ts)x?$')";
 }
