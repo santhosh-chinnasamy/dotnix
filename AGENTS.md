@@ -1,6 +1,6 @@
 # Repository Agent Guidelines
 
-Welcome AI Agent. This repository contains the Nix flake configuration for a single ThinkPad host with multi-user Home Manager profiles, dual dynamic desktop shell support (DMS and Noctalia), and a pure Lua-based Hyprland window manager.
+Welcome AI Agent. This repository contains the Nix flake configuration for a ThinkPad (NixOS) and a work Mac (nix-darwin), with multi-user Home Manager profiles, dual dynamic desktop shell support (DMS and Noctalia), and a pure Lua-based Hyprland window manager.
 
 Follow the instructions, architectural invariants, and safety protocols below when modifying or extending this codebase.
 
@@ -12,15 +12,17 @@ Follow the instructions, architectural invariants, and safety protocols below wh
 
 ```text
 .
-├── flake.nix                          # Flake entrypoint: inputs, formatter, nixosConfigurations.thinkpad
+├── flake.nix                          # Flake entrypoint: thinkpad + work-mac configs, formatters
 ├── flake.lock                         # Pinned dependency revisions
 ├── hosts/
-│   └── thinkpad/
-│       ├── default.nix                # Host entrypoint: imports system, hardware, packages & home-manager
-│       ├── configuration.nix          # System config: GNOME/GDM, Pipewire, fprintd (Goodix TOD), PAM/polkit
-│       ├── hardware-configuration.nix    # Generated HW: LUKS encrypted root/home/boot, EFI systemd-boot
-│       ├── hardware-embedded.nix      # Udev rules (CP210x, CH340) & user groups (dialout, plugdev)
-│       └── virtualisation.nix         # Podman daemon & Docker socket emulation
+│   ├── thinkpad/
+│   │   ├── default.nix                # Host entrypoint: imports system, hardware, packages & home-manager
+│   │   ├── configuration.nix          # System config: GNOME/GDM, Pipewire, fprintd (Goodix TOD), PAM/polkit
+│   │   ├── hardware-configuration.nix # Generated HW: LUKS encrypted root/home/boot, EFI systemd-boot
+│   │   ├── hardware-embedded.nix      # Udev rules (CP210x, CH340) & user groups (dialout, plugdev)
+│   │   └── virtualisation.nix         # Podman daemon & Docker socket emulation
+│   └── work-mac/
+│       └── default.nix                # nix-darwin host: Homebrew casks, Touch ID, HM for santhoshc
 ├── modules/
 │   └── packages/
 │       ├── cli.nix                    # Shared CLI tools (neovim, ripgrep, gcc, git) & 1Password browser config
@@ -29,10 +31,13 @@ Follow the instructions, architectural invariants, and safety protocols below wh
     ├── lisasri/
     │   └── home.nix                   # Minimal user profile (GNOME tweaks, Ghostty)
     └── santhosh/
-        ├── home.nix                   # Primary user entrypoint: packages, shell selection, GTK
+        ├── home.nix                   # Linux entrypoint: desktop apps, Hyprland/DMS, GTK
+        ├── work-mac-home.nix          # Darwin entrypoint: username/home only; imports common.nix
         ├── config/
-        │   └── aliases.nix            # User shell aliases (eza, bat, lazygit, nvim shortcuts)
+        │   └── aliases.nix            # Shared shell aliases (eza, bat, lazygit, nvim, darwin rebuild)
         └── modules/
+            ├── common.nix             # Cross-platform HM: zsh/OMZ, LazyVim, direnv, git, CLI pkgs
+            ├── starship.nix           # Shared Starship prompt settings
             ├── shell.nix              # custom.desktop.shell option, generates constants.lua & session target
             ├── dms.nix                # DankMaterialShell: theme, plugins (calc, clock), widgets, bar layout
             ├── noctalia.nix           # Noctalia shell: top bar, system monitor, dark theme, systemd service
@@ -109,7 +114,9 @@ When adding packages, tools, or configuration settings, follow this exact placem
 | **System CLI Utilities** | `modules/packages/cli.nix` | `ripgrep`, `fd`, `neovim`, `gcc`, `git`, build tools, hardware inspection tools |
 | **System GUI / Desktops** | `modules/packages/desktop.nix` | Fonts (`nerd-fonts`), system display portals, core browsers (`firefox`), media players |
 | **Hardware, Kernel, Boot** | `hosts/thinkpad/` | Kernel modules, udev rules (`hardware-embedded.nix`), LUKS, Podman/Docker (`virtualisation.nix`) |
-| **User General Packages** | `users/santhosh/home.nix` | Desktop apps (`ghostty`, `kitty`, `lazygit`, `chromium`, `localsend`), user tools |
+| **Cross-platform user CLI / shell** | `users/santhosh/modules/common.nix` | zsh/OMZ, Starship, LazyVim, direnv, `lazygit`, `glab`, `claude-code`, etc. |
+| **Linux desktop packages** | `users/santhosh/home.nix` | Desktop apps (`ghostty`, `kitty`, `chromium`, `localsend`), Hyprland extras |
+| **Darwin host / Homebrew** | `hosts/work-mac/default.nix` | nix-darwin system, Homebrew casks, Touch ID |
 | **Complex User Services** | `users/santhosh/modules/<name>.nix` | Shell configurations, custom bars, browsers with extensions, CLI integration plugins |
 | **User Shell Aliases** | `users/santhosh/config/aliases.nix` | Command shortcuts (`ls = "eza"`, `gst = "git status"`, etc.) |
 | **Lisasri User Profile** | `users/lisasri/home.nix` | User-specific apps for the secondary user account |
@@ -120,6 +127,9 @@ When adding packages, tools, or configuration settings, follow this exact placem
 
 - **Inputs Following `nixpkgs`**: All flake inputs must follow the primary `nixpkgs` input when possible (`inputs.nixpkgs.follows = "nixpkgs"`) to avoid duplicate package builds and store bloat.
 - **External Flakes**:
+  - `nix-darwin`: macOS system management (`darwinConfigurations.work-mac`).
+  - `mac-app-util`: macOS app linking helpers for nix-darwin.
+  - `lazyvim`: LazyVim Home Manager module (shared via `common.nix`).
   - `antigravity-nix`: Google Antigravity CLI and IDE.
   - `codex-cli-nix`: SadJow's Codex CLI.
   - `dms`: DankMaterialShell (`github:AvengeMedia/DankMaterialShell`).

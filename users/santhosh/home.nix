@@ -5,6 +5,16 @@
   ...
 }:
 {
+  imports = [
+    ./modules/common.nix
+    ./modules/shell.nix
+    ./modules/hyprland.nix
+    ./modules/dms.nix
+    ./modules/noctalia.nix
+    ./modules/1password.nix
+    ./modules/zen.nix
+  ];
+
   home = {
     username = "santhosh";
     homeDirectory = "/home/santhosh";
@@ -12,8 +22,6 @@
     sessionVariables = {
       XDG_DATA_DIRS = "$XDG_DATA_DIRS:$HOME/.local/share/flatpak/exports/share";
     };
-
-    shellAliases = import ./config/aliases.nix;
 
     pointerCursor = {
       enable = false;
@@ -29,7 +37,6 @@
       telegram-desktop
       ghostty
       kitty
-      lazygit
       libnotify
       brightnessctl
       networkmanagerapplet
@@ -61,35 +68,11 @@
     enable = true;
     gtk4.theme = config.gtk.theme;
   };
-  programs = {
-    bash.enable = true;
-    git = {
-      enable = true;
-      settings.user = {
-        name = "Santhosh C";
-        email = "csesanthosh15@gmail.com";
-      };
-    };
 
-    home-manager.enable = true;
-    hyprlock = {
-      enable = true;
-    };
-    #direnv.enable = true;
-    #nix-index.enable = true;
-  };
+  programs.hyprlock.enable = true;
 
   services.hyprpaper.enable = true;
 
   # Active Wayland desktop shell: "dms" | "noctalia" | "none"
   custom.desktop.shell = "dms";
-
-  imports = [
-    ./modules/shell.nix
-    ./modules/hyprland.nix
-    ./modules/dms.nix
-    ./modules/noctalia.nix
-    ./modules/1password.nix
-    ./modules/zen.nix
-  ];
 }

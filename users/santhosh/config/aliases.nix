@@ -1,7 +1,7 @@
 {
   ls = "eza";
   cat = "bat";
-  src = "source ~/.bashrc";
+  src = "source ~/.zshrc";
   hg = "history | rg $1";
 
   ## git
