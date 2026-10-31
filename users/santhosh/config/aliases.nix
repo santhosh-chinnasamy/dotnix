@@ -16,14 +16,16 @@
   */
   lg = "lazygit";
 
-  # nix
-  nd = "cd /etc/nixos-config/";
-  nrt = "cd /etc/nixos-config/ && nvim .";
-  nts = "cd /etc/nixos-config/ &&  sudo nixos-rebuild switch --flake .#thinkpad";
-  ntb = "cd /etc/nixos-config/ &&  sudo nixos-rebuild build --flake .#thinkpad";
-  ntt = "cd /etc/nixos-config/ && sudo nixos-rebuild test --flake .#thinkpad";
+  # flake repo (same path on ThinkPad and Mac)
+  nd = "cd ~/.config/dotnix";
+  nrt = "cd ~/.config/dotnix && nvim .";
 
-  # nix-darwin
+  # NixOS (thinkpad)
+  nts = "cd ~/.config/dotnix && sudo nixos-rebuild switch --flake .#thinkpad";
+  ntb = "cd ~/.config/dotnix && sudo nixos-rebuild build --flake .#thinkpad";
+  ntt = "cd ~/.config/dotnix && sudo nixos-rebuild test --flake .#thinkpad";
+
+  # nix-darwin (work-mac)
   dd = "cd ~/.config/dotnix";
   ds = "cd ~/.config/dotnix && sudo darwin-rebuild switch --flake .#work-mac";
   db = "cd ~/.config/dotnix && sudo darwin-rebuild build --flake .#work-mac";

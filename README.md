@@ -34,10 +34,11 @@ Shell aliases live in [`users/santhosh/config/aliases.nix`](users/santhosh/confi
 
 ## Quick start
 
-Typical clone paths:
+Clone (or move) this repo to the same path on both machines:
 
-- ThinkPad: `/etc/nixos-config`
-- Mac: `~/.config/dotnix`
+```text
+~/.config/dotnix
+```
 
 ### ThinkPad (NixOS)
 

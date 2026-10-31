@@ -1,4 +1,4 @@
-# 1password.nix
+# Linux 1Password GUI + shell plugins. CLI is installed via common.nix.
 { pkgs, inputs, ... }:
 
 {
@@ -6,9 +6,7 @@
     inputs._1password-shell-plugins.hmModules.default
   ];
 
-  # Install 1Password CLI
   home.packages = with pkgs; [
-    _1password-cli
     _1password-gui
   ];
 

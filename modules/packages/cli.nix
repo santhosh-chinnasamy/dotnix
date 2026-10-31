@@ -1,29 +1,21 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
+  # Linux system CLI: host/build/hardware tools. Cross-platform user CLI lives in
+  # users/santhosh/modules/common.nix.
   environment.systemPackages = with pkgs; [
     neovim
     git
-    curl
-    wget
-    bat
-    ripgrep
     gcc
     gnumake
     gdb
     wl-clipboard
     tree-sitter
-    direnv
     xdg-utils
     openssl
     openssl.dev
-    statix
     fd
-    eza
     just
-    comma
     wlr-randr
-    #  hyprland-qutils
-    devenv
     usbutils
     picocom
     docker-compose
@@ -41,5 +33,4 @@
       mode = "0755";
     };
   };
-
 }

@@ -25,7 +25,7 @@ Follow the instructions, architectural invariants, and safety protocols below wh
 │       └── default.nix                # nix-darwin host: Homebrew casks, Touch ID, HM for santhoshc
 ├── modules/
 │   └── packages/
-│       ├── cli.nix                    # Shared CLI tools (neovim, ripgrep, gcc, git) & 1Password browser config
+│       ├── cli.nix                    # Linux system CLI (gcc, wl-clipboard, usbutils…) & 1Password browser allowlist
 │       └── desktop.nix                # Shared GUI tools, fonts (JetBrainsMono NF), Hyprland & portals
 └── users/
     ├── lisasri/
@@ -111,7 +111,7 @@ When adding packages, tools, or configuration settings, follow this exact placem
 
 | Category | Target File | Example Packages / Settings |
 | :--- | :--- | :--- |
-| **System CLI Utilities** | `modules/packages/cli.nix` | `ripgrep`, `fd`, `neovim`, `gcc`, `git`, build tools, hardware inspection tools |
+| **System CLI Utilities (Linux)** | `modules/packages/cli.nix` | `neovim`, `git`, `gcc`, `fd`, `wl-clipboard`, `usbutils`, build/hardware tools |
 | **System GUI / Desktops** | `modules/packages/desktop.nix` | Fonts (`nerd-fonts`), system display portals, core browsers (`firefox`), media players |
 | **Hardware, Kernel, Boot** | `hosts/thinkpad/` | Kernel modules, udev rules (`hardware-embedded.nix`), LUKS, Podman/Docker (`virtualisation.nix`) |
 | **Cross-platform user CLI / shell** | `users/santhosh/modules/common.nix` | zsh/OMZ, Starship, LazyVim, direnv, `lazygit`, `glab`, `claude-code`, etc. |
