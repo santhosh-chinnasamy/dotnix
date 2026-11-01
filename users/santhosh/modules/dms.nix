@@ -113,6 +113,10 @@ in
           }
         ];
 
+        # Notifications: body/View should invoke the default action (focus app).
+        # Pair with Hyprland misc.focus_on_activate so the raise actually switches workspace.
+        notificationPopupBodyInvokesAction = true;
+
         # Workspaces & Launcher
         showWorkspaceIndex = true;
         showWorkspaceApps = true;

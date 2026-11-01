@@ -92,6 +92,7 @@
       "networkmanager"
       "wheel"
       "video"
+      "input" # Voxtype evdev hotkeys (optional; compositor binds work without it)
     ];
     packages = with pkgs; [ ];
   };

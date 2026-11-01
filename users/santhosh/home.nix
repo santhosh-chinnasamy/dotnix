@@ -13,6 +13,9 @@
     ./modules/noctalia.nix
     ./modules/1password.nix
     ./modules/zen.nix
+    ./modules/walker.nix
+    ./modules/voxtype.nix
+    ./modules/desktop-extras.nix
   ];
 
   home = {
@@ -60,6 +63,7 @@
       tailscale
       opencode
       opencode-desktop
+      inputs.grok-bot.packages.${pkgs.system}.default
     ];
   };
 

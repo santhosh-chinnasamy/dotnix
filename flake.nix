@@ -44,6 +44,10 @@
     };
     lazyvim.url = "github:pfassina/lazyvim-nix";
     mac-app-util.url = "github:hraban/mac-app-util";
+    grok-bot = {
+      url = "github:jordangarrison/grok-bot-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
