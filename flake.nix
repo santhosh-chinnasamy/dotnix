@@ -48,6 +48,15 @@
       url = "github:jordangarrison/grok-bot-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hex = {
+      url = "github:anomalyco/hex";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # Update: nix flake update snappy-switcher
+    snappy-switcher = {
+      url = "github:OpalAayan/snappy-switcher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

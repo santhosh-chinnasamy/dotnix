@@ -37,9 +37,26 @@ hl.bind(main_mod .. " + SHIFT + Space", hl.dsp.exec_cmd("walker -s tools"), { de
 -- Launcher (Walker) + shell chrome
 --------------------------------------------------------------------
 hl.bind(main_mod .. " + Space", hl.dsp.exec_cmd("walker"), { description = "Walker launcher" })
--- Super+Tab: cross-workspace window/app switcher (Walker windows provider)
-hl.bind(main_mod .. " + Tab", hl.dsp.exec_cmd("walker -s switcher"), {
-	description = "App switcher (all workspaces)",
+-- Snappy Switcher: hold Super, tap Tab, release Super to focus.
+hl.bind(main_mod .. " + Tab", hl.dsp.exec_cmd("snappy-switcher next --mod super"), {
+	description = "App switcher",
+})
+hl.bind(main_mod .. " + SHIFT + Tab", hl.dsp.exec_cmd("snappy-switcher prev --mod super"), {
+	description = "App switcher (reverse)",
+})
+-- Super+`: cycle windows of the same app class when switcher is closed (macOS Command+`)
+
+hl.bind(main_mod .. " + grave", hl.dsp.exec_cmd("hyprctl dispatch cyclenext sameclass"), {
+	description = "Cycle same app",
+})
+hl.bind(
+	main_mod .. " + SHIFT + grave",
+	hl.dsp.exec_cmd("hyprctl dispatch cyclenext prev sameclass"),
+	{ description = "Cycle same app reverse" }
+)
+-- Emoji / symbols via Walker (also type "." in the launcher)
+hl.bind(main_mod .. " + period", hl.dsp.exec_cmd("walker -s symbols"), {
+	description = "Emoji / symbols",
 })
 hl.bind(main_mod .. " + CTRL + L", hl.dsp.exec_cmd("hyprlock"), { description = "Lock" })
 hl.bind(main_mod .. " + CTRL + N", hl.dsp.exec_cmd("nightlight-toggle"), {
@@ -51,8 +68,14 @@ hl.bind(main_mod .. " + CTRL + N", hl.dsp.exec_cmd("nightlight-toggle"), {
 --------------------------------------------------------------------
 hl.bind(main_mod .. " + W", hl.dsp.window.close(), { description = "Close window" })
 hl.bind(main_mod .. " + Q", hl.dsp.window.close(), { description = "Close window" })
--- Reload Lua/config safely (never exit the compositor from a chord)
-hl.bind(main_mod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"), { description = "Reload Hyprland" })
+-- Reload Lua/config, then restart Snappy so the daemon reattaches.
+hl.bind(
+	main_mod .. " + SHIFT + R",
+	hl.dsp.exec_cmd(
+		"sh -c 'hyprctl reload; sleep 1; systemctl --user reset-failed snappy-switcher.service; systemctl --user restart snappy-switcher.service'"
+	),
+	{ description = "Reload Hyprland" }
+)
 
 hl.bind(main_mod .. " + T", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle float" })
 hl.bind(main_mod .. " + U", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle float" })
@@ -176,13 +199,14 @@ hl.bind(main_mod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }), { descri
 
 --------------------------------------------------------------------
 -- Workspaces (1–9). Super+0 = previous workspace (Omarchy-style "back").
+-- Super+Shift+3/4/5 are Mac screenshots — use Super+Ctrl+N to move (all workspaces).
 --------------------------------------------------------------------
 for i = 1, 9 do
 	local ws = tostring(i)
 	hl.bind(main_mod .. " + " .. ws, hl.dsp.focus({ workspace = ws }), {
 		description = "Workspace " .. ws,
 	})
-	hl.bind(main_mod .. " + SHIFT + " .. ws, hl.dsp.window.move({ workspace = ws, follow = true }), {
+	hl.bind(main_mod .. " + CTRL + " .. ws, hl.dsp.window.move({ workspace = ws, follow = true }), {
 		description = "Move to workspace " .. ws,
 	})
 	hl.bind(
@@ -194,7 +218,7 @@ end
 hl.bind(main_mod .. " + 0", hl.dsp.focus({ workspace = "previous" }), {
 	description = "Previous workspace",
 })
-hl.bind(main_mod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = "previous", follow = true }), {
+hl.bind(main_mod .. " + CTRL + 0", hl.dsp.window.move({ workspace = "previous", follow = true }), {
 	description = "Move to previous workspace",
 })
 
@@ -209,7 +233,7 @@ hl.bind(
 )
 
 --------------------------------------------------------------------
--- Clipboard
+-- Clipboard + Mac Option word-jump (Alt → Ctrl arrows)
 --------------------------------------------------------------------
 hl.bind(main_mod .. " + C", hl.dsp.send_shortcut({ mods = "CONTROL", key = "Insert" }), {
 	description = "Universal copy",
@@ -219,6 +243,13 @@ hl.bind(main_mod .. " + V", hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert
 })
 hl.bind(main_mod .. " + X", hl.dsp.send_shortcut({ mods = "CONTROL", key = "X" }), {
 	description = "Universal cut",
+})
+-- Option+Left/Right word jump (GUI editors); terminals often already handle Alt.
+hl.bind("ALT + left", hl.dsp.send_shortcut({ mods = "CONTROL", key = "Left" }), {
+	description = "Word jump left (Option)",
+})
+hl.bind("ALT + right", hl.dsp.send_shortcut({ mods = "CONTROL", key = "Right" }), {
+	description = "Word jump right (Option)",
 })
 
 --------------------------------------------------------------------
@@ -244,7 +275,7 @@ hl.bind("F9", hl.dsp.exec_cmd("voxtype record stop"), {
 })
 
 --------------------------------------------------------------------
--- Capture
+-- Capture (Mac-like Super+Shift+3/4/5 + shell-agnostic Satty/Kooha)
 --------------------------------------------------------------------
 hl.bind(main_mod .. " + Print", hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker -a"), {
 	description = "Color picker",
@@ -253,14 +284,27 @@ hl.bind(main_mod .. " + CTRL + Print", hl.dsp.exec_cmd("hypr-ocr"), { descriptio
 hl.bind("ALT + Print", hl.dsp.exec_cmd("hypr-screenrecord-toggle"), {
 	description = "Toggle screen recording",
 })
+-- macOS Command+Shift+3/4/5 equivalents
+hl.bind(main_mod .. " + SHIFT + 3", hl.dsp.exec_cmd("hypr-screenshot-full"), {
+	description = "Screenshot full → Satty",
+})
+hl.bind(main_mod .. " + SHIFT + 4", hl.dsp.exec_cmd("hypr-screenshot-region"), {
+	description = "Screenshot region → Satty",
+})
+hl.bind(main_mod .. " + SHIFT + 5", hl.dsp.exec_cmd("kooha"), {
+	description = "Capture / record (Kooha)",
+})
 
 --------------------------------------------------------------------
--- Shell-specific (DMS / Noctalia) — launcher/switcher are Walker
+-- Shell-specific (DMS / Noctalia) — Super+Tab is Snappy; launcher is Walker
 --------------------------------------------------------------------
 if shell == "dms" then
-	-- DMS parses ~/.config/hypr Lua binds into a searchable modal overlay
+	-- DMS native keybind overlay (styled). KEYBINDS.md via Super+Shift+K as fallback.
 	hl.bind(main_mod .. " + K", hl.dsp.exec_cmd(ipc .. "keybinds toggle hyprland"), {
 		description = "Keybind cheatsheet (DMS)",
+	})
+	hl.bind(main_mod .. " + SHIFT + K", hl.dsp.exec_cmd("hypr-keybinds-help"), {
+		description = "Keybind cheatsheet (markdown)",
 	})
 	hl.bind("ALT + Space", hl.dsp.exec_cmd(ipc .. "spotlight-bar toggle"), {
 		description = "DMS spotlight bar",
@@ -275,7 +319,8 @@ if shell == "dms" then
 	hl.bind(main_mod .. " + SHIFT + C", hl.dsp.exec_cmd(ipc .. "clipboard toggle"), {
 		description = "Clipboard history",
 	})
-	hl.bind(main_mod .. " + SHIFT + Tab", hl.dsp.exec_cmd(ipc .. "hypr toggleOverview"), {
+	-- Super+Shift+Tab is Snappy reverse; overview on Super+Ctrl+Tab.
+	hl.bind(main_mod .. " + CTRL + Tab", hl.dsp.exec_cmd(ipc .. "hypr toggleOverview"), {
 		description = "Workspace overview",
 	})
 
@@ -315,7 +360,8 @@ elseif shell == "noctalia" then
 	hl.bind(main_mod .. " + comma", hl.dsp.exec_cmd(ipc .. "settings-toggle"), {
 		description = "Settings",
 	})
-	hl.bind(main_mod .. " + SHIFT + Tab", hl.dsp.exec_cmd(ipc .. "window-switcher"), {
+	-- Super+Shift+Tab is Snappy; Noctalia switcher on Super+Ctrl+Tab.
+	hl.bind(main_mod .. " + CTRL + Tab", hl.dsp.exec_cmd(ipc .. "window-switcher"), {
 		description = "Window switcher",
 	})
 

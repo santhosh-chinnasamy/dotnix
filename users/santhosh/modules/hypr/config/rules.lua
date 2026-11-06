@@ -7,6 +7,14 @@ hl.window_rule({
 	size = "80% 80%",
 })
 
+-- Satty screenshot annotation (GTK app-id com.gabm.satty / satty)
+hl.window_rule({
+	name = "satty-float",
+	match = { class = "com.gabm.satty|satty" },
+	float = true,
+	center = true,
+})
+
 hl.workspace_rule({
 	workspace = "special:scratchpad",
 	gaps_in = 5,

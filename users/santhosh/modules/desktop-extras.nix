@@ -43,13 +43,13 @@ let
   hypr-screenrecord-toggle = pkgs.writeShellApplication {
     name = "hypr-screenrecord-toggle";
     runtimeInputs = [
-      pkgs.wf-recorder
+      pkgs.wl-screenrec
       pkgs.slurp
       pkgs.libnotify
       pkgs.coreutils
     ];
     text = ''
-      pidfile="''${XDG_RUNTIME_DIR:-/tmp}/wf-recorder.pid"
+      pidfile="''${XDG_RUNTIME_DIR:-/tmp}/wl-screenrec.pid"
       outdir="''${OMARCHY_SCREENRECORD_DIR:-$HOME/Videos}"
       mkdir -p "$outdir"
 
@@ -62,9 +62,66 @@ let
 
       geom="$(slurp)" || exit 0
       outfile="$outdir/screenrecording-$(date +%Y-%m-%d_%H-%M-%S).mp4"
-      wf-recorder -g "$geom" -f "$outfile" &
+      wl-screenrec -g "$geom" -f "$outfile" &
       echo $! >"$pidfile"
       notify-send -a Recording "Screen recording started" "$outfile"
+    '';
+  };
+
+  hypr-screenshot-full = pkgs.writeShellApplication {
+    name = "hypr-screenshot-full";
+    runtimeInputs = [
+      pkgs.grim
+      pkgs.satty
+      pkgs.jq
+      pkgs.hyprland
+      pkgs.coreutils
+      pkgs.wl-clipboard
+    ];
+    text = ''
+      outdir="''${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
+      mkdir -p "$outdir"
+      outfile="$outdir/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+      # Focused monitor geometry via hyprctl (shell-agnostic; no DMS/Noctalia).
+      mon="$(hyprctl monitors -j | jq -r '.[] | select(.focused) | "\(.x),\(.y) \(.width)x\(.height)"')"
+      grim -g "$mon" -t ppm - | satty --filename - --fullscreen --output-filename "$outfile" --copy-command wl-copy
+    '';
+  };
+
+  hypr-screenshot-region = pkgs.writeShellApplication {
+    name = "hypr-screenshot-region";
+    runtimeInputs = [
+      pkgs.grim
+      pkgs.slurp
+      pkgs.satty
+      pkgs.coreutils
+      pkgs.wl-clipboard
+    ];
+    text = ''
+      outdir="''${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
+      mkdir -p "$outdir"
+      outfile="$outdir/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+      geom="$(slurp -d)" || exit 0
+      grim -g "$geom" -t ppm - | satty --filename - --output-filename "$outfile" --copy-command wl-copy
+    '';
+  };
+
+  walker-ensure = pkgs.writeShellApplication {
+    name = "walker-ensure";
+    runtimeInputs = [
+      pkgs.procps
+      pkgs.coreutils
+    ];
+    text = ''
+      # Keep Walker's GApplication service alive for instant Super+Space launcher.
+      if pgrep -x walker >/dev/null; then
+        exit 0
+      fi
+      # walker may live under a wrapped path; prefer PATH resolution.
+      if command -v walker >/dev/null; then
+        nohup walker --gapplication-service >/dev/null 2>&1 &
+        disown || true
+      fi
     '';
   };
 
@@ -138,17 +195,23 @@ in
     hypr-window-pop
     hypr-layout-cycle
     hypr-screenrecord-toggle
+    hypr-screenshot-full
+    hypr-screenshot-region
+    walker-ensure
     hypr-ocr
     hypr-keybinds-help
     floating-tui
     nightlight-toggle
     pkgs.hyprpicker
-    pkgs.wf-recorder
+    pkgs.wl-screenrec
     pkgs.slurp
     pkgs.grim
+    pkgs.satty
+    pkgs.kooha
     pkgs.tesseract
     pkgs.wtype
     pkgs.jq
+    pkgs.wl-clipboard
   ];
 
   services.gammastep = {

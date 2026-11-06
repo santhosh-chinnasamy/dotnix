@@ -14,6 +14,9 @@ in
   ];
 
   config = lib.mkIf enableDms {
+    # Keep DMS from registering a polkit agent so hyprpolkitagent can own prompts.
+    systemd.user.services.dms.Service.Environment = lib.mkAfter [ "DMS_DISABLE_POLKIT=1" ];
+
     programs.dank-material-shell = {
       enable = true;
       systemd = {

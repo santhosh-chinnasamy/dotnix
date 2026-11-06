@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -19,6 +20,16 @@ let
     text = "Lazygit"
     value = "floating-tui lazygit"
     icon = "git"
+
+    [[entries]]
+    text = "Emoji / symbols"
+    value = "walker -s symbols"
+    icon = "face-smile"
+
+    [[entries]]
+    text = "Screen record (Kooha)"
+    value = "kooha"
+    icon = "camera-video"
 
     [[entries]]
     text = "Voxtype configure"
@@ -57,6 +68,14 @@ let
 
     command = "xdg-open"
   '';
+
+  # Focus already-open apps instead of spawning broken/duplicate instances.
+  desktopAppsConfig = pkgs.writeText "elephant-desktopapplications.toml" ''
+    window_integration = true
+    ignore_pin_with_window = true
+    score_open_windows = true
+    history = true
+  '';
 in
 {
   # Walker + Elephant replace the DMS/Noctalia app launcher (Super+Space).
@@ -85,6 +104,7 @@ in
           "files"
           "clipboard"
           "windows"
+          "symbols"
         ];
         empty = [ "desktopapplications" ];
         # Provider sets
@@ -92,10 +112,15 @@ in
           default = [ "menus:tools" ];
           empty = [ "menus:tools" ];
         };
-        # Super+Tab app switcher — windows across all workspaces
+        # Optional windows provider set (Super+Tab is Snappy; keep for tools / manual use)
         sets.switcher = {
           default = [ "windows" ];
           empty = [ "windows" ];
+        };
+        # Super+. emoji / symbols picker
+        sets.symbols = {
+          default = [ "symbols" ];
+          empty = [ "symbols" ];
         };
         prefixes = [
           {
@@ -146,6 +171,14 @@ in
   xdg.configFile = {
     "elephant/menus/tools.toml".source = toolsMenu;
     "elephant/websearch.toml".source = websearchConfig;
+    "elephant/desktopapplications.toml".source = desktopAppsConfig;
+    # Drop-in merges with the vendor unit. A full HM service override would
+    # replace ExecStart and break activation (BadUnitSetting / NOPERMISSION).
+    "systemd/user/xdg-desktop-portal-hyprland.service.d/wayland.conf".text = ''
+      [Unit]
+      After=hyprland-session.target
+      ConditionEnvironment=WAYLAND_DISPLAY
+    '';
   };
 
   systemd.user.services.elephant = {
@@ -155,5 +188,23 @@ in
       ConditionEnvironment = "WAYLAND_DISPLAY";
     };
     Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
+  };
+
+  # Long-running Walker GApplication service (instant Super+Space launcher).
+  # Started after hyprland-session so WAYLAND_DISPLAY is present.
+  systemd.user.services.walker-ensure = {
+    Unit = {
+      Description = "Walker GApplication service";
+      After = [ "hyprland-session.target" ];
+      PartOf = [ "hyprland-session.target" ];
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${config.home.profileDirectory}/bin/walker --gapplication-service";
+      Restart = "on-failure";
+      RestartSec = 2;
+    };
+    Install.WantedBy = [ "hyprland-session.target" ];
   };
 }

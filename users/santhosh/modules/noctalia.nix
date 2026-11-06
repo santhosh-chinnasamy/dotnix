@@ -19,7 +19,8 @@ in
       settings = {
         shell = {
           font_family = "JetBrainsMono Nerd Font Mono";
-          polkit_agent = true;
+          # Use hyprpolkitagent instead (one agent system-wide; avoids conflicts).
+          polkit_agent = false;
           launch_apps_as_systemd_services = true;
           launcher = {
             app_grid = true;
