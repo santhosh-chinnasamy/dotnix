@@ -88,4 +88,4 @@ DMS/Noctalia built-in polkit agents are disabled (`DMS_DISABLE_POLKIT=1`, noctal
 
 ## VS Code encryption
 
-Editors use gnome-keyring via `password-store: gnome-libsecret` in argv.json. Unlock the keyring at login (Seahorse) if the “weaker encryption” banner persists.
+Chromium/Electron keyring pins live in `users/santhosh/modules/electron-keyring.nix` (`*-flags.conf` + VS Code–fork `argv.json`). Unlock the login keyring at session start (Seahorse) if a “weaker encryption” banner persists.

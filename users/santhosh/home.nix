@@ -17,6 +17,7 @@
     ./modules/snappy-switcher.nix
     ./modules/voxtype.nix
     ./modules/desktop-extras.nix
+    ./modules/electron-keyring.nix
   ];
 
   home = {
@@ -63,6 +64,7 @@
       chromium
       localsend
       t3code
+      code-cursor
       cursor-cli
       tailscale
       opencode
@@ -70,12 +72,6 @@
       inputs.grok-bot.packages.${pkgs.system}.default
       # inputs.hex.packages.${pkgs.system}.default
     ];
-
-    # VS Code: use gnome-keyring via libsecret (fixes "weaker encryption").
-    file.".vscode/argv.json".text = builtins.toJSON {
-      "password-store" = "gnome-libsecret";
-      "enable-crash-reporter" = false;
-    };
   };
 
   fonts.fontconfig.enable = true;
@@ -105,12 +101,6 @@
       Restart = "on-failure";
     };
     Install.WantedBy = [ "hyprland-session.target" ];
-  };
-
-  # Codium shares the same keyring fix as VS Code (~/.vscode/argv.json above).
-  xdg.configFile."VSCodium/argv.json".text = builtins.toJSON {
-    "password-store" = "gnome-libsecret";
-    "enable-crash-reporter" = false;
   };
 
   # Active Wayland desktop shell: "dms" | "noctalia" | "none"
