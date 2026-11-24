@@ -19,6 +19,8 @@
     usbutils
     picocom
     docker-compose
+    tailscale
+    opencode
   ];
 
   # set default editor as neovim

@@ -7,6 +7,7 @@
     vscodium
     ## Manage displays (extend, mirror)
     wdisplays
+    opencode-desktop
   ];
 
   programs.hyprland = {
