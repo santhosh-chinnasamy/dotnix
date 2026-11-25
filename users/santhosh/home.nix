@@ -16,6 +16,7 @@
     ./modules/walker.nix
     ./modules/snappy-switcher.nix
     ./modules/voxtype.nix
+    ./modules/hypridle.nix
     ./modules/desktop-extras.nix
     ./modules/electron-keyring.nix
   ];

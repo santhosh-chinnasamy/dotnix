@@ -205,6 +205,19 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  # Remote access over the tailnet only (no public SSH).
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  # Lid policy: stay awake (and reachable) with the lid closed on AC power,
+  # suspend on battery to save power/heat.
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "ignore";
+  };
+
   # Enable Flatpak
   services.flatpak = {
     enable = true;
