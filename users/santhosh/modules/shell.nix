@@ -25,7 +25,6 @@ in
 
     xdg.configFile."hypr/config/constants.lua".text = ''
       return {
-        main_mod = "SUPER",
         shell = "${cfg.shell}",
         ipc = "${
           if cfg.shell == "dms" then

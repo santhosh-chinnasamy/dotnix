@@ -1,15 +1,11 @@
 local constants = require("config.constants")
 
-local main_mod = constants.main_mod
+-- DMS's static cheatsheet parser only resolves plain string locals, not table
+-- fields, so the main modifier stays a literal here. This is the single source
+-- of truth: change the modifier here (and nowhere else) if it ever changes.
+local main_mod = "SUPER"
 local ipc = constants.ipc
 local shell = constants.shell
-
-local dirs = {
-	{ key = "h", arrow = "left", dir = "left", short = "l" },
-	{ key = "j", arrow = "down", dir = "down", short = "d" },
-	{ key = "k", arrow = "up", dir = "up", short = "u" },
-	{ key = "l", arrow = "right", dir = "right", short = "r" },
-}
 
 --------------------------------------------------------------------
 -- Applications
@@ -121,28 +117,38 @@ hl.bind(main_mod .. " + CTRL + right", hl.dsp.group.next(), { description = "Nex
 --------------------------------------------------------------------
 -- Vim-style + arrow focus / swap / resize / group join
 --------------------------------------------------------------------
-for _, d in ipairs(dirs) do
-	hl.bind(main_mod .. " + " .. d.key, hl.dsp.focus({ direction = d.dir }), {
-		description = "Focus " .. d.dir,
-	})
-	hl.bind(main_mod .. " + " .. d.arrow, hl.dsp.focus({ direction = d.dir }), {
-		description = "Focus " .. d.dir,
-	})
+-- Written out explicitly (instead of an ipairs(dirs) loop) so DMS's static
+-- cheatsheet parser can read the literal key combos for Super+K.
+hl.bind(main_mod .. " + h", hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
+hl.bind(main_mod .. " + left", hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
+hl.bind(main_mod .. " + j", hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
+hl.bind(main_mod .. " + down", hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
+hl.bind(main_mod .. " + k", hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
+hl.bind(main_mod .. " + up", hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
+hl.bind(main_mod .. " + l", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
+hl.bind(main_mod .. " + right", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
 
-	hl.bind(main_mod .. " + SHIFT + " .. d.key, hl.dsp.window.swap({ direction = d.dir }), {
-		description = "Swap " .. d.dir,
-	})
-	hl.bind(main_mod .. " + SHIFT + " .. d.arrow, hl.dsp.window.swap({ direction = d.dir }), {
-		description = "Swap " .. d.dir,
-	})
+hl.bind(main_mod .. " + SHIFT + h", hl.dsp.window.swap({ direction = "left" }), { description = "Swap left" })
+hl.bind(main_mod .. " + SHIFT + left", hl.dsp.window.swap({ direction = "left" }), { description = "Swap left" })
+hl.bind(main_mod .. " + SHIFT + j", hl.dsp.window.swap({ direction = "down" }), { description = "Swap down" })
+hl.bind(main_mod .. " + SHIFT + down", hl.dsp.window.swap({ direction = "down" }), { description = "Swap down" })
+hl.bind(main_mod .. " + SHIFT + k", hl.dsp.window.swap({ direction = "up" }), { description = "Swap up" })
+hl.bind(main_mod .. " + SHIFT + up", hl.dsp.window.swap({ direction = "up" }), { description = "Swap up" })
+hl.bind(main_mod .. " + SHIFT + l", hl.dsp.window.swap({ direction = "right" }), { description = "Swap right" })
+hl.bind(main_mod .. " + SHIFT + right", hl.dsp.window.swap({ direction = "right" }), { description = "Swap right" })
 
-	hl.bind(main_mod .. " + ALT + " .. d.key, hl.dsp.window.move({ into_group = d.short }), {
-		description = "Move into group " .. d.dir,
-	})
-	hl.bind(main_mod .. " + ALT + " .. d.arrow, hl.dsp.window.move({ into_group = d.short }), {
-		description = "Move into group " .. d.dir,
-	})
-end
+hl.bind(main_mod .. " + ALT + h", hl.dsp.window.move({ into_group = "l" }), { description = "Move into group left" })
+hl.bind(main_mod .. " + ALT + left", hl.dsp.window.move({ into_group = "l" }), { description = "Move into group left" })
+hl.bind(main_mod .. " + ALT + j", hl.dsp.window.move({ into_group = "d" }), { description = "Move into group down" })
+hl.bind(main_mod .. " + ALT + down", hl.dsp.window.move({ into_group = "d" }), { description = "Move into group down" })
+hl.bind(main_mod .. " + ALT + k", hl.dsp.window.move({ into_group = "u" }), { description = "Move into group up" })
+hl.bind(main_mod .. " + ALT + up", hl.dsp.window.move({ into_group = "u" }), { description = "Move into group up" })
+hl.bind(main_mod .. " + ALT + l", hl.dsp.window.move({ into_group = "r" }), { description = "Move into group right" })
+hl.bind(
+	main_mod .. " + ALT + right",
+	hl.dsp.window.move({ into_group = "r" }),
+	{ description = "Move into group right" }
+)
 
 -- Keyboard resize: Super+Ctrl+hjkl (more reliable than =/- on many layouts)
 hl.bind(
@@ -299,9 +305,11 @@ hl.bind(main_mod .. " + SHIFT + 5", hl.dsp.exec_cmd("kooha"), {
 -- Shell-specific (DMS / Noctalia) — Super+Tab is Snappy; launcher is Walker
 --------------------------------------------------------------------
 if shell == "dms" then
-	-- DMS native keybind overlay (styled). KEYBINDS.md via Super+Shift+K as fallback.
-	hl.bind(main_mod .. " + K", hl.dsp.exec_cmd(ipc .. "keybinds toggle hyprland"), {
-		description = "Keybind cheatsheet (DMS)",
+	-- Grouped cheatsheet (all Hyprland binds, curated categories). The wrapper
+	-- regenerates ~/.config/dms/cheatsheets/hyprland-grouped.json from
+	-- `dms keybinds show hyprland`, then toggles that provider.
+	hl.bind(main_mod .. " + K", hl.dsp.exec_cmd("hypr-keybinds-overlay"), {
+		description = "Keybind cheatsheet (grouped)",
 	})
 	hl.bind(main_mod .. " + SHIFT + K", hl.dsp.exec_cmd("hypr-keybinds-help"), {
 		description = "Keybind cheatsheet (markdown)",
@@ -325,30 +333,50 @@ if shell == "dms" then
 	})
 
 	hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. "audio increment 3"), {
+		description = "Volume up",
 		locked = true,
 		repeating = true,
 	})
 	hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. "audio decrement 3"), {
+		description = "Volume down",
 		locked = true,
 		repeating = true,
 	})
-	hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. "audio mute"), { locked = true })
-	hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(ipc .. "audio micmute"), { locked = true })
+	hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. "audio mute"), {
+		description = "Mute audio",
+		locked = true,
+	})
+	hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(ipc .. "audio micmute"), {
+		description = "Mute microphone",
+		locked = true,
+	})
 	hl.bind(
 		"XF86MonBrightnessUp",
 		hl.dsp.exec_cmd([[dms ipc call brightness increment 5 ""]]),
-		{ locked = true, repeating = true }
+		{ description = "Brightness up", locked = true, repeating = true }
 	)
 	hl.bind(
 		"XF86MonBrightnessDown",
 		hl.dsp.exec_cmd([[dms ipc call brightness decrement 5 ""]]),
-		{ locked = true, repeating = true }
+		{ description = "Brightness down", locked = true, repeating = true }
 	)
 
-	hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(ipc .. "mpris playPause"), { locked = true })
-	hl.bind("XF86AudioPause", hl.dsp.exec_cmd(ipc .. "mpris playPause"), { locked = true })
-	hl.bind("XF86AudioNext", hl.dsp.exec_cmd(ipc .. "mpris next"), { locked = true })
-	hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(ipc .. "mpris previous"), { locked = true })
+	hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(ipc .. "mpris playPause"), {
+		description = "Play / pause",
+		locked = true,
+	})
+	hl.bind("XF86AudioPause", hl.dsp.exec_cmd(ipc .. "mpris playPause"), {
+		description = "Play / pause",
+		locked = true,
+	})
+	hl.bind("XF86AudioNext", hl.dsp.exec_cmd(ipc .. "mpris next"), {
+		description = "Next track",
+		locked = true,
+	})
+	hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(ipc .. "mpris previous"), {
+		description = "Previous track",
+		locked = true,
+	})
 
 	hl.bind("Print", hl.dsp.exec_cmd("dms screenshot"), { description = "Screenshot" })
 	hl.bind("SHIFT + Print", hl.dsp.exec_cmd("dms screenshot full"), { description = "Screenshot full" })
@@ -365,22 +393,33 @@ elseif shell == "noctalia" then
 		description = "Window switcher",
 	})
 
-	hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. "volume-up"))
-	hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. "volume-down"))
-	hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. "volume-mute"))
-	hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd(ipc .. "brightness-up"))
-	hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(ipc .. "brightness-down"))
+	hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. "volume-up"), { description = "Volume up" })
+	hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. "volume-down"), {
+		description = "Volume down",
+	})
+	hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. "volume-mute"), { description = "Mute audio" })
+	hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd(ipc .. "brightness-up"), {
+		description = "Brightness up",
+	})
+	hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(ipc .. "brightness-down"), {
+		description = "Brightness down",
+	})
 
-	hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
-	hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
-	hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
+	hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { description = "Play / pause" })
+	hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { description = "Next track" })
+	hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { description = "Previous track" })
 
-	hl.bind("SHIFT + Print", hl.dsp.exec_cmd("sh -c 'grimblast copy screen && notify-send \"Copied Screen\"'"))
+	hl.bind(
+		"SHIFT + Print",
+		hl.dsp.exec_cmd("sh -c 'grimblast copy screen && notify-send \"Copied Screen\"'"),
+		{ description = "Screenshot full" }
+	)
 	hl.bind(
 		"Print",
 		hl.dsp.exec_cmd(
 			[[sh -c 'FILE=~/Pictures/Screenshots_$(date +%Y-%m-%d_%H-%M-%S).png && grimblast save screen $FILE && notify-send "Screenshot saved"']]
-		)
+		),
+		{ description = "Screenshot" }
 	)
 else
 	hl.bind(main_mod .. " + K", hl.dsp.exec_cmd("hypr-keybinds-help"), {

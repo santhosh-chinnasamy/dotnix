@@ -18,7 +18,7 @@ Super is the Windows / Command key.
 
 | Shell | Super + K | Super + Shift + K |
 | --- | --- | --- |
-| DMS | Native DMS keybind overlay | Floating `KEYBINDS.md` |
+| DMS | Grouped cheatsheet — every Hyprland bind, grouped by feature | Floating `KEYBINDS.md` |
 | Noctalia / none | Floating `KEYBINDS.md` | — |
 
 Walker (`Super + Space`, tools `!`) remains the launcher — not the app switcher.

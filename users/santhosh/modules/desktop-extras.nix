@@ -189,6 +189,45 @@ let
       fi
     '';
   };
+
+  # Regenerate a feature-grouped copy of the running Hyprland keybinds and open
+  # it in DMS's keybind overlay. DMS auto-discovers ~/.config/dms/cheatsheets/*.json.
+  hypr-keybinds-overlay = pkgs.writeShellApplication {
+    name = "hypr-keybinds-overlay";
+    runtimeInputs = [
+      pkgs.jq
+      pkgs.coreutils
+      pkgs.hyprland
+      pkgs.libnotify
+    ];
+    text = ''
+      dir="''${XDG_CONFIG_HOME:-$HOME/.config}/dms/cheatsheets"
+      mkdir -p "$dir"
+      active="$(mktemp)"
+      parsed="$(mktemp)"
+      # Same filesystem as the target so the final mv is an atomic rename, and
+      # the non-.json name keeps DMS from discovering a half-written file.
+      out="$(mktemp "$dir/.hyprland-grouped.XXXXXX")"
+      trap 'rm -f "$active" "$parsed" "$out"' EXIT
+
+      # hyprctl prints its error on stdout, so a plain fallback would break jq.
+      if ! hyprctl binds -j > "$active" 2>/dev/null; then
+        notify-send -a "Keybind cheatsheet" "Hyprland is not reachable" || true
+        exit 1
+      fi
+
+      dms keybinds show hyprland > "$parsed" 2>/dev/null || echo '{"binds":{}}' > "$parsed"
+
+      if ! jq -n --slurpfile active "$active" --slurpfile parsed "$parsed" \
+        -f ${./hypr-cheatsheet.jq} > "$out" || [[ ! -s "$out" ]]; then
+        notify-send -a "Keybind cheatsheet" "Failed to build keybind list" || true
+        exit 1
+      fi
+      mv "$out" "$dir/hyprland-grouped.json"
+
+      dms ipc call keybinds toggle hyprland-grouped
+    '';
+  };
 in
 {
   home.packages = [
@@ -200,6 +239,7 @@ in
     walker-ensure
     hypr-ocr
     hypr-keybinds-help
+    hypr-keybinds-overlay
     floating-tui
     nightlight-toggle
     pkgs.hyprpicker
