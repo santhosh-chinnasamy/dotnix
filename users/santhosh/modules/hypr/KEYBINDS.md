@@ -8,8 +8,6 @@ Super is the Windows / Command key.
 | --- | --- |
 | Super + Tab (hold Super) | **App switcher** — Snappy Switcher; release Super to focus |
 | Super + Shift + Tab | Previous window in the Snappy list |
-| Super + ` (in switcher) | Next in list / same-app when switcher closed |
-| Super + Shift + ` | Cycle same app reverse (when switcher closed) |
 | Alt + Tab | Next window in group (tabbed stack in one tile) |
 | Alt + Shift + Tab | Previous in group |
 | Super + Ctrl + Tab | DMS workspace overview / Noctalia window switcher |
@@ -61,7 +59,7 @@ Super+Shift+[3/4/5] are screenshots, so move uses Super+Ctrl instead of Super+Sh
 
 ## Layout
 
-`Super + Shift + L` toggles **this workspace** between dwindle and scrolling via `workspace_rule` (Hyprland 0.57 ignores `hyprctl keyword general:layout`).
+`Super + Shift + L` cycles **this workspace** through dwindle → scrolling → master via `workspace_rule` (Hyprland 0.57 ignores `hyprctl keyword general:layout`).
 
 `Super + J` only works on dwindle (flips split orientation).
 
@@ -75,10 +73,11 @@ Super+Shift+[3/4/5] are screenshots, so move uses Super+Ctrl instead of Super+Sh
 | Super + Return | Terminal |
 | Super + Shift + T | btop (`--force-utf`) |
 | Super + K | Keybind cheatsheet |
+| Super + ` | Toggle quake console (persistent console, `special:console`; terminal via `custom.desktop.quakeConsole.terminal`) |
 
-## Voxtype
+## Hex (dictation)
 
-Focus a text field → `Super + Ctrl + X` toggle (or hold F9) → speak → toggle/release. Configure: `Super + Ctrl + Alt + X`.
+Focus a text field → `Super + Ctrl + X` toggle (or hold F9) → speak → toggle/release. Cancel: `Super + Ctrl + Shift + X`. Settings: `Super + Ctrl + Alt + X`. Paste last dictation: `Ctrl + Alt + V`.
 
 ## Auth popups (polkit)
 

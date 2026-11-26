@@ -15,6 +15,36 @@ hl.window_rule({
 	center = true,
 })
 
+-- Quake console (Super+`): one persistent console on special:console.
+-- Terminal is chosen by custom.desktop.quakeConsole.terminal.
+-- kitty carries a real Wayland class:
+hl.window_rule({
+	name = "quake-console",
+	match = { class = "quake-console" },
+	float = true,
+	center = true,
+	size = "70% 60%",
+	workspace = "special:console",
+	dim_around = true,
+})
+
+-- Ghostty's Wayland app-id is fixed, so its console is matched by spawn title:
+hl.window_rule({
+	name = "quake-console-ghostty",
+	match = { initial_title = "Quake Console" },
+	float = true,
+	center = true,
+	size = "70% 60%",
+	workspace = "special:console",
+	dim_around = true,
+})
+
+hl.workspace_rule({
+	workspace = "special:console",
+	gaps_in = 5,
+	gaps_out = 10,
+})
+
 hl.workspace_rule({
 	workspace = "special:scratchpad",
 	gaps_in = 5,

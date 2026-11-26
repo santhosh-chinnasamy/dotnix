@@ -32,13 +32,13 @@ let
     icon = "camera-video"
 
     [[entries]]
-    text = "Voxtype configure"
-    value = "floating-tui voxtype configure"
+    text = "Hex settings"
+    value = "hex window show settings"
     icon = "audio-input-microphone"
 
     [[entries]]
-    text = "Voxtype status"
-    value = "floating-tui sh -c 'voxtype status; echo; read -n1 -s -r -p \"Press any key...\"'"
+    text = "Hex status"
+    value = "floating-tui sh -c 'hex status; echo; read -n1 -s -r -p \"Press any key...\"'"
     icon = "audio-input-microphone"
 
     [[entries]]

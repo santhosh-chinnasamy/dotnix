@@ -40,16 +40,10 @@ hl.bind(main_mod .. " + Tab", hl.dsp.exec_cmd("snappy-switcher next --mod super"
 hl.bind(main_mod .. " + SHIFT + Tab", hl.dsp.exec_cmd("snappy-switcher prev --mod super"), {
 	description = "App switcher (reverse)",
 })
--- Super+`: cycle windows of the same app class when switcher is closed (macOS Command+`)
-
-hl.bind(main_mod .. " + grave", hl.dsp.exec_cmd("hyprctl dispatch cyclenext sameclass"), {
-	description = "Cycle same app",
+-- Super+`: toggle the persistent quake-style console (one Ghostty on special:console)
+hl.bind(main_mod .. " + grave", hl.dsp.exec_cmd("quake-console"), {
+	description = "Toggle quake console",
 })
-hl.bind(
-	main_mod .. " + SHIFT + grave",
-	hl.dsp.exec_cmd("hyprctl dispatch cyclenext prev sameclass"),
-	{ description = "Cycle same app reverse" }
-)
 -- Emoji / symbols via Walker (also type "." in the launcher)
 hl.bind(main_mod .. " + period", hl.dsp.exec_cmd("walker -s symbols"), {
 	description = "Emoji / symbols",
@@ -95,13 +89,18 @@ hl.bind(main_mod .. " + SHIFT + L", function()
 		return
 	end
 	local current = workspace.tiled_layout or "dwindle"
-	local next_layout = current == "dwindle" and "scrolling" or "dwindle"
+	local next_layout = "dwindle"
+	if current == "dwindle" then
+		next_layout = "scrolling"
+	elseif current == "scrolling" then
+		next_layout = "master"
+	end
 	hl.workspace_rule({ workspace = workspace.name, layout = next_layout })
 	hl.notification.create({
 		text = "Workspace " .. tostring(workspace.name) .. " → " .. next_layout,
 		timeout = 2500,
 	})
-end, { description = "Cycle workspace layout (dwindle/scrolling)" })
+end, { description = "Cycle workspace layout (dwindle/scrolling/master)" })
 
 -- Groups = tabbed stack inside one tile (same workspace only)
 hl.bind(main_mod .. " + G", hl.dsp.group.toggle(), { description = "Toggle group" })
@@ -259,22 +258,22 @@ hl.bind("ALT + right", hl.dsp.send_shortcut({ mods = "CONTROL", key = "Right" })
 })
 
 --------------------------------------------------------------------
--- Dictation (Voxtype) — no separate GUI app; daemon + OSD/notifications
+-- Dictation (Hex) — local voice dictation; Hyprland owns the hotkeys
 --------------------------------------------------------------------
-hl.bind(main_mod .. " + CTRL + X", hl.dsp.exec_cmd("voxtype record toggle"), {
+hl.bind(main_mod .. " + CTRL + X", hl.dsp.exec_cmd("hex dictation toggle"), {
 	description = "Toggle dictation",
 })
-hl.bind(main_mod .. " + CTRL + SHIFT + X", hl.dsp.exec_cmd("voxtype record cancel"), {
+hl.bind(main_mod .. " + CTRL + SHIFT + X", hl.dsp.exec_cmd("hex dictation cancel"), {
 	description = "Cancel dictation",
 })
-hl.bind(main_mod .. " + CTRL + ALT + X", hl.dsp.exec_cmd("floating-tui voxtype configure"), {
-	description = "Voxtype configure TUI",
+hl.bind(main_mod .. " + CTRL + ALT + X", hl.dsp.exec_cmd("hex window show settings"), {
+	description = "Hex settings",
 })
-hl.bind("F9", hl.dsp.exec_cmd("voxtype record start"), {
+hl.bind("F9", hl.dsp.exec_cmd("hex dictation start"), {
 	description = "Dictation start (hold)",
 	locked = true,
 })
-hl.bind("F9", hl.dsp.exec_cmd("voxtype record stop"), {
+hl.bind("F9", hl.dsp.exec_cmd("hex dictation stop"), {
 	description = "Dictation stop (release)",
 	release = true,
 	locked = true,

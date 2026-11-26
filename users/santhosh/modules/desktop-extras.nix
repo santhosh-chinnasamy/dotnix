@@ -5,38 +5,9 @@ let
     runtimeInputs = [ pkgs.hyprland ];
     text = ''
       # Float + pin so the window follows across workspaces (Omarchy pop).
-      hyprctl --batch "dispatch setfloating active; dispatch pin active"
-    '';
-  };
-
-  hypr-layout-cycle = pkgs.writeShellApplication {
-    name = "hypr-layout-cycle";
-    runtimeInputs = [
-      pkgs.hyprland
-      pkgs.jq
-      pkgs.libnotify
-    ];
-    text = ''
-      current="$(hyprctl getoption general:layout -j | jq -r '.str')"
-      case "$current" in
-        scrolling)
-          next="dwindle"
-          tip="Windows split into a tree (Super+J flips orientation)"
-          ;;
-        *)
-          next="scrolling"
-          tip="Windows line up in a horizontal strip you can scroll"
-          ;;
-      esac
-
-      # Keyword is session-wide; new windows on every workspace follow it until reload.
-      hyprctl keyword general:layout "$next"
-      actual="$(hyprctl getoption general:layout -j | jq -r '.str')"
-      if [[ "$actual" != "$next" ]]; then
-        notify-send -a Hyprland "Layout failed" "wanted $next, got $actual"
-        exit 1
-      fi
-      notify-send -a Hyprland "Layout: $actual" "$tip"
+      # Hyprland 0.57 Lua configs need Lua dispatchers, not legacy names.
+      hyprctl dispatch "hl.dsp.window.float({ action = 'enable' })"
+      hyprctl dispatch "hl.dsp.window.pin({ action = 'enable' })"
     '';
   };
 
@@ -232,7 +203,6 @@ in
 {
   home.packages = [
     hypr-window-pop
-    hypr-layout-cycle
     hypr-screenrecord-toggle
     hypr-screenshot-full
     hypr-screenshot-region

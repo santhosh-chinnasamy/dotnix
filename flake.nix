@@ -32,11 +32,6 @@
     };
     hyprland.url = "github:hyprwm/Hyprland";
 
-    # Track the official plugins repository and lock it to your Hyprland version
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     dms = {
       url = "github:AvengeMedia/DankMaterialShell";

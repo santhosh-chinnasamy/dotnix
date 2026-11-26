@@ -15,8 +15,10 @@
     ./modules/zen.nix
     ./modules/walker.nix
     ./modules/snappy-switcher.nix
-    ./modules/voxtype.nix
     ./modules/hypridle.nix
+    ./modules/kanshi.nix
+    ./modules/hex.nix
+    ./modules/quake-console.nix
     ./modules/desktop-extras.nix
     ./modules/electron-keyring.nix
   ];
@@ -106,4 +108,5 @@
 
   # Active Wayland desktop shell: "dms" | "noctalia" | "none"
   custom.desktop.shell = "dms";
+  custom.desktop.quakeConsole.terminal = "ghostty";
 }
