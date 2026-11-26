@@ -77,7 +77,22 @@ Super+Shift+[3/4/5] are screenshots, so move uses Super+Ctrl instead of Super+Sh
 
 ## Hex (dictation)
 
-Focus a text field → `Super + Ctrl + X` toggle (or hold F9) → speak → toggle/release. Cancel: `Super + Ctrl + Shift + X`. Settings: `Super + Ctrl + Alt + X`. Paste last dictation: `Ctrl + Alt + V`.
+Hyprland owns the keys — the shortcuts set in Hex Settings are not used on Hyprland. Binds:
+
+| Keys | Action |
+| --- | --- |
+| Alt + Space | Toggle dictation (Hex portal shortcut) |
+| F9 (hold) | Dictation while held (CLI) |
+| Super + Ctrl + X | Toggle dictation (CLI) |
+| Super + Ctrl + Shift + X | Cancel dictation |
+| F10 | Dictation that pastes with Ctrl+Shift+V (terminals) |
+| F12 | Annotate |
+| Super + Ctrl + Alt + X | Hex settings window |
+| Ctrl + Alt + V | Paste last dictation (Hex default) |
+
+Hex runs on the CPU backend (`transcription_device = cpu`): the Intel Vulkan path produced empty live transcriptions.
+
+Alt+Space is Hex's hold/toggle key; a modifier-free key avoids Electron menus being triggered by the Alt release. DMS spotlight moved to `Super + Alt + Space`.
 
 ## Auth popups (polkit)
 

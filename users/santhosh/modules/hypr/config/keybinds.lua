@@ -260,6 +260,17 @@ hl.bind("ALT + right", hl.dsp.send_shortcut({ mods = "CONTROL", key = "Right" })
 --------------------------------------------------------------------
 -- Dictation (Hex) — local voice dictation; Hyprland owns the hotkeys
 --------------------------------------------------------------------
+-- Hex's portal shortcuts get no key on Hyprland, so bind the bare names
+-- (`hyprctl globalshortcuts` lists them). Keys set in Hex Settings are ignored.
+hl.bind("ALT + Space", hl.dsp.global("anomaly.hex:dictation"), {
+	description = "Dictation (Hex)",
+})
+hl.bind("F12", hl.dsp.global("anomaly.hex:capture"), {
+	description = "Annotate (Hex)",
+})
+hl.bind("F10", hl.dsp.global("anomaly.hex:terminal-paste"), {
+	description = "Dictation into terminal (Hex)",
+})
 hl.bind(main_mod .. " + CTRL + X", hl.dsp.exec_cmd("hex dictation toggle"), {
 	description = "Toggle dictation",
 })
@@ -313,7 +324,7 @@ if shell == "dms" then
 	hl.bind(main_mod .. " + SHIFT + K", hl.dsp.exec_cmd("hypr-keybinds-help"), {
 		description = "Keybind cheatsheet (markdown)",
 	})
-	hl.bind("ALT + Space", hl.dsp.exec_cmd(ipc .. "spotlight-bar toggle"), {
+	hl.bind(main_mod .. " + ALT + Space", hl.dsp.exec_cmd(ipc .. "spotlight-bar toggle"), {
 		description = "DMS spotlight bar",
 	})
 	hl.bind(main_mod .. " + comma", hl.dsp.exec_cmd(ipc .. "settings focusOrToggle"), {

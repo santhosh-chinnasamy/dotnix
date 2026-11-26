@@ -223,8 +223,17 @@
     enable = true;
   };
 
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  xdg.portal.config.common.default = "gtk";
+  xdg.portal = {
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common = {
+      default = "gtk";
+      # Screen capture belongs to the compositor portal: the gtk backend does
+      # not implement ScreenCast (it aborts on the request) and that also
+      # breaks Annotate, browser screen sharing and portal recorders.
+      "org.freedesktop.impl.portal.ScreenCast" = "hyprland";
+      "org.freedesktop.impl.portal.Screenshot" = "hyprland";
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
