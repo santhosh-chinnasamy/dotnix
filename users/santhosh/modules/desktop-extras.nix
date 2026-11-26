@@ -11,31 +11,89 @@ let
     '';
   };
 
-  hypr-screenrecord-toggle = pkgs.writeShellApplication {
-    name = "hypr-screenrecord-toggle";
+  hypr-screenrecord = pkgs.writeShellApplication {
+    name = "hypr-screenrecord";
     runtimeInputs = [
       pkgs.wl-screenrec
       pkgs.slurp
       pkgs.libnotify
       pkgs.coreutils
+      pkgs.hyprland
+      pkgs.jq
+      pkgs.walker
     ];
     text = ''
       pidfile="''${XDG_RUNTIME_DIR:-/tmp}/wl-screenrec.pid"
       outdir="''${OMARCHY_SCREENRECORD_DIR:-$HOME/Videos}"
       mkdir -p "$outdir"
 
-      if [[ -f "$pidfile" ]] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
-        kill -INT "$(cat "$pidfile")" || true
-        rm -f "$pidfile"
-        notify-send -a Recording "Screen recording stopped"
+      running() {
+        [[ -f "$pidfile" ]] && kill -0 "$(cat "$pidfile")" 2>/dev/null
+      }
+
+      stop() {
+        if running; then
+          kill -INT "$(cat "$pidfile")" || true
+          rm -f "$pidfile"
+          notify-send -a Recording "Screen recording stopped"
+        else
+          notify-send -a Recording "No recording in progress"
+        fi
+      }
+
+      start() {
+        local geom="$1" label="$2"
+        [[ -n "$geom" ]] || return 0
+        local outfile
+        outfile="$outdir/screenrecording-$(date +%Y-%m-%d_%H-%M-%S).mp4"
+        wl-screenrec -g "$geom" -f "$outfile" &
+        echo $! >"$pidfile"
+        notify-send -a Recording "Recording $label" "$outfile"
+      }
+
+      region() { start "$(slurp)" "region"; }
+
+      monitor() { start "$(slurp -o)" "monitor"; }
+
+      window() {
+        local boxes
+        boxes="$(hyprctl clients -j | jq -r '.[]
+          | select(.mapped and (.workspace.name | startswith("special:") | not))
+          | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')"
+        if [[ -z "$boxes" ]]; then
+          notify-send -a Recording "No windows to pick from"
+          return 0
+        fi
+        start "$(printf '%s\n' "$boxes" | slurp -r)" "window"
+      }
+
+      if running; then
+        case "''${1:-toggle}" in
+          stop) stop ;;
+          *) stop ;;
+        esac
         exit 0
       fi
 
-      geom="$(slurp)" || exit 0
-      outfile="$outdir/screenrecording-$(date +%Y-%m-%d_%H-%M-%S).mp4"
-      wl-screenrec -g "$geom" -f "$outfile" &
-      echo $! >"$pidfile"
-      notify-send -a Recording "Screen recording started" "$outfile"
+      case "''${1:-menu}" in
+        region) region ;;
+        monitor) monitor ;;
+        window) window ;;
+        stop) stop ;;
+        toggle) region ;;
+        menu)
+          choice="$(printf 'Region\nMonitor\nWindow\n' | walker -d)" || exit 0
+          case "$choice" in
+            Region) region ;;
+            Monitor) monitor ;;
+            Window) window ;;
+          esac
+          ;;
+        *)
+          echo "usage: hypr-screenrecord menu|region|monitor|window|toggle|stop" >&2
+          exit 2
+          ;;
+      esac
     '';
   };
 
@@ -203,7 +261,7 @@ in
 {
   home.packages = [
     hypr-window-pop
-    hypr-screenrecord-toggle
+    hypr-screenrecord
     hypr-screenshot-full
     hypr-screenshot-region
     walker-ensure
@@ -217,7 +275,6 @@ in
     pkgs.slurp
     pkgs.grim
     pkgs.satty
-    pkgs.kooha
     pkgs.tesseract
     pkgs.wtype
     pkgs.jq

@@ -291,14 +291,14 @@ hl.bind("F9", hl.dsp.exec_cmd("hex dictation stop"), {
 })
 
 --------------------------------------------------------------------
--- Capture (Mac-like Super+Shift+3/4/5 + shell-agnostic Satty/Kooha)
+-- Capture (Mac-like Super+Shift+3/4/5 + Satty/wl-screenrec)
 --------------------------------------------------------------------
 hl.bind(main_mod .. " + Print", hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker -a"), {
 	description = "Color picker",
 })
 hl.bind(main_mod .. " + CTRL + Print", hl.dsp.exec_cmd("hypr-ocr"), { description = "OCR region" })
-hl.bind("ALT + Print", hl.dsp.exec_cmd("hypr-screenrecord-toggle"), {
-	description = "Toggle screen recording",
+hl.bind("ALT + Print", hl.dsp.exec_cmd("hypr-screenrecord toggle"), {
+	description = "Toggle region recording",
 })
 -- macOS Command+Shift+3/4/5 equivalents
 hl.bind(main_mod .. " + SHIFT + 3", hl.dsp.exec_cmd("hypr-screenshot-full"), {
@@ -307,8 +307,8 @@ hl.bind(main_mod .. " + SHIFT + 3", hl.dsp.exec_cmd("hypr-screenshot-full"), {
 hl.bind(main_mod .. " + SHIFT + 4", hl.dsp.exec_cmd("hypr-screenshot-region"), {
 	description = "Screenshot region → Satty",
 })
-hl.bind(main_mod .. " + SHIFT + 5", hl.dsp.exec_cmd("kooha"), {
-	description = "Capture / record (Kooha)",
+hl.bind(main_mod .. " + SHIFT + 5", hl.dsp.exec_cmd("hypr-screenrecord menu"), {
+	description = "Record region / monitor / window",
 })
 
 --------------------------------------------------------------------

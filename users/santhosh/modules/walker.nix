@@ -27,8 +27,8 @@ let
     icon = "face-smile"
 
     [[entries]]
-    text = "Screen record (Kooha)"
-    value = "kooha"
+    text = "Screen record (region)"
+    value = "hypr-screenrecord menu"
     icon = "camera-video"
 
     [[entries]]

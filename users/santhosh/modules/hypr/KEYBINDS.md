@@ -23,19 +23,19 @@ Walker (`Super + Space`, tools `!`) remains the launcher — not the app switche
 
 ## Screenshots & recording (Mac-like)
 
-Shell-agnostic stack: **Satty** (annotate), **Kooha** (GUI capture/record), **wl-screenrec** (hotkey region).
+Shell-agnostic stack: **Satty** (annotate), **wl-screenrec** (region/monitor/window recording), **hyprpicker** (color).
 
 | Keys | Action |
 | --- | --- |
 | Super + Shift + 3 | Fullscreen → Satty (annotate / save / copy) |
 | Super + Shift + 4 | Region → Satty |
-| Super + Shift + 5 | Kooha (capture & screen-record UI) |
+| Super + Shift + 5 | Recording menu: **Region / Monitor / Window** (then click to pick) |
 | Print / Shift + Print | Quick shell screenshot (DMS or grimblast) |
-| Alt + Print | Toggle region recording (wl-screenrec) |
+| Alt + Print | Start/stop region recording directly (no menu) |
 | Super + Ctrl + Print | OCR region → clipboard |
 | Super + Print | Color picker |
 
-Saved screenshots: `~/Pictures/Screenshots/`. Recordings: `~/Videos/`.
+Recording menu: `slurp` shows the picker — drag a region, click a monitor, or click a window. While a recording runs, any recording key stops it. Saved to `~/Videos/screenrecording-<timestamp>.mp4` (no overlay, start/stop notification only).
 
 ## Word jump & emoji
 
