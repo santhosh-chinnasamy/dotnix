@@ -48,4 +48,15 @@ _: {
       }
     ];
   };
+
+  # At login this service can start a moment before Hyprland exports
+  # WAYLAND_DISPLAY to the user manager; retry through that window instead of
+  # burning the default start limit (5 failures in 10s).
+  systemd.user.services.kanshi = {
+    Unit = {
+      StartLimitIntervalSec = 30;
+      StartLimitBurst = 10;
+    };
+    Service.RestartSec = "1";
+  };
 }

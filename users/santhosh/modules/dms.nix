@@ -17,6 +17,16 @@ in
     # Keep DMS from registering a polkit agent so hyprpolkitagent can own prompts.
     systemd.user.services.dms.Service.Environment = lib.mkAfter [ "DMS_DISABLE_POLKIT=1" ];
 
+    # At login the service can start before Hyprland exports WAYLAND_DISPLAY;
+    # retry through that window instead of burning the default start limit.
+    systemd.user.services.dms = {
+      Unit = {
+        StartLimitIntervalSec = 30;
+        StartLimitBurst = 10;
+      };
+      Service.RestartSec = "1";
+    };
+
     programs.dank-material-shell = {
       enable = true;
       systemd = {

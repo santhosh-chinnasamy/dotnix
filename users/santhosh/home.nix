@@ -94,12 +94,17 @@
       After = [ "graphical-session.target" ];
       PartOf = [ "graphical-session.target" ];
       ConditionEnvironment = "WAYLAND_DISPLAY";
+      # Retry through the login window where the compositor is still starting,
+      # instead of burning the default start limit (5 failures in 10s).
+      StartLimitIntervalSec = 30;
+      StartLimitBurst = 10;
     };
     Service = {
       ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
       Slice = "session.slice";
       TimeoutStopSec = "5s";
       Restart = "on-failure";
+      RestartSec = "1";
     };
     Install.WantedBy = [ "hyprland-session.target" ];
   };
