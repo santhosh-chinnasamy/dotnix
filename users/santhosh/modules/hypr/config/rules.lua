@@ -15,6 +15,16 @@ hl.window_rule({
 	center = true,
 })
 
+-- Zen/Firefox Picture-in-Picture: floating and pinned, visible on all
+-- workspaces. Size is only a seed; Firefox remembers the size you drag.
+hl.window_rule({
+	name = "pip",
+	match = { initial_title = "Picture-in-Picture" },
+	float = true,
+	pin = true,
+	size = "480 270",
+})
+
 -- Quake console (Super+`): one persistent console on special:console.
 -- Terminal is chosen by custom.desktop.quakeConsole.terminal.
 -- kitty carries a real Wayland class:
