@@ -16,6 +16,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Keep kernel console noise off the TTY greeter (tuigreet): only critical
+  # messages reach the screen; everything still lands in the journal.
+  boot.consoleLogLevel = 2;
+
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -52,8 +56,12 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
+  # Login screen: "gdm" (password at boot; fingerprint at lock/unlock) or
+  # "greetd" (greetd + tuigreet; fingerprint or password at boot).
+  # Implemented in hosts/thinkpad/display-manager.nix.
+  custom.displayManager.session = "greetd";
+
+  # GNOME desktop packages and desktop session (independent of the login screen).
   services.desktopManager.gnome.enable = true;
 
   services.gnome = {
