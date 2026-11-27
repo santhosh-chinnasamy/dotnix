@@ -94,6 +94,10 @@ Hex runs on the CPU backend (`transcription_device = cpu`): the Intel Vulkan pat
 
 Alt+Space is Hex's hold/toggle key; a modifier-free key avoids Electron menus being triggered by the Alt release. DMS spotlight moved to `Super + Alt + Space`.
 
+## Session & lock
+
+`Super + Ctrl + L` locks with **hyprlock** — fingerprint first, password as fallback. The same screen covers the idle timeout and suspend (hypridle), and DMS's power-menu lock (repointed via `customPowerActionLock`); boot/login stays with GDM. Declarative config: `users/santhosh/modules/hyprlock.nix`; fingerprint PAM: `pam.services.hyprlock` in `hosts/thinkpad/configuration.nix`.
+
 ## Auth popups (polkit)
 
 Privileged apps (`pkexec`, some Flatpaks, system settings) show a **hyprpolkitagent** dialog (fingerprint via fprintd, or password).

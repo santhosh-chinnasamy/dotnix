@@ -16,6 +16,7 @@
     ./modules/walker.nix
     ./modules/snappy-switcher.nix
     ./modules/hypridle.nix
+    ./modules/hyprlock.nix
     ./modules/kanshi.nix
     ./modules/hex.nix
     ./modules/quake-console.nix
@@ -52,7 +53,6 @@
       brightnessctl
       networkmanagerapplet
       gh
-      hyprlock
       hyprpolkitagent
       grimblast
       hyprpaper
@@ -82,8 +82,6 @@
     enable = true;
     gtk4.theme = config.gtk.theme;
   };
-
-  programs.hyprlock.enable = true;
 
   services.hyprpaper.enable = true;
 

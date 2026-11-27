@@ -141,7 +141,11 @@ in
         batteryNotifyChargeLimit = true;
         batteryNotifyLow = true;
         terminalsAlwaysDark = true;
-        lockPamExternallyManaged = true;
+        # Hand every DMS lock request (power menu, control center, and the
+        # logind Lock signal from hypridle) to hyprlock instead of DMS's own
+        # lock screen. The trailing unlock-session clears logind's locked hint
+        # and lets DMS reset its custom-locker state so the next lock works.
+        customPowerActionLock = "hyprlock; loginctl unlock-session";
 
         # Island & OSD
         dankIslandHomeCompactTight = true;

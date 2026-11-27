@@ -180,16 +180,6 @@
       '';
     };
 
-    pam.services.dankshell = {
-      text = ''
-        auth       sufficient ${pkgs.fprintd}/lib/security/pam_fprintd.so timeout=10
-        auth       required   pam_unix.so try_first_pass nullok
-
-        account    required   pam_unix.so
-        password   required   pam_unix.so
-        session    required   pam_unix.so
-      '';
-    };
     pam.services.gdm.enableGnomeKeyring = true;
 
     pam.services.gdm-password.enableGnomeKeyring = true;
