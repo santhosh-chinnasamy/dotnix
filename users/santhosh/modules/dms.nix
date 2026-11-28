@@ -135,6 +135,11 @@ in
         showWorkspaceApps = true;
         workspaceFollowFocus = true;
         showOccupiedWorkspacesOnly = true;
+        # Keep a continuous 1-9 strip: synthesize missing slots and dim them
+        # instead of dropping them. Padding runs after the occupied-only filter,
+        # so it wins over showOccupiedWorkspacesOnly.
+        showWorkspacePadding = true;
+        workspacePaddingCount = 9;
         appIdSubstitutions = [ ];
         centeringMode = "geometric";
         sortAppsAlphabetically = true;
