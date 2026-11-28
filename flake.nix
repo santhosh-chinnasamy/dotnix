@@ -32,11 +32,6 @@
     };
     hyprland.url = "github:hyprwm/Hyprland";
 
-    # Track the official plugins repository and lock it to your Hyprland version
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     dms = {
       url = "github:AvengeMedia/DankMaterialShell";
@@ -44,6 +39,19 @@
     };
     lazyvim.url = "github:pfassina/lazyvim-nix";
     mac-app-util.url = "github:hraban/mac-app-util";
+    grok-bot = {
+      url = "github:jordangarrison/grok-bot-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hex = {
+      url = "github:anomalyco/hex";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # Update: nix flake update snappy-switcher
+    snappy-switcher = {
+      url = "github:OpalAayan/snappy-switcher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

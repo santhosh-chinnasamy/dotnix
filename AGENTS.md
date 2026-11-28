@@ -18,6 +18,7 @@ Follow the instructions, architectural invariants, and safety protocols below wh
 │   ├── thinkpad/
 │   │   ├── default.nix                # Host entrypoint: imports system, hardware, packages & home-manager
 │   │   ├── configuration.nix          # System config: GNOME/GDM, Pipewire, fprintd (Goodix TOD), PAM/polkit
+│   │   ├── display-manager.nix        # custom.displayManager.session: "gdm" | "greetd" (tuigreet)
 │   │   ├── hardware-configuration.nix # Generated HW: LUKS encrypted root/home/boot, EFI systemd-boot
 │   │   ├── hardware-embedded.nix      # Udev rules (CP210x, CH340) & user groups (dialout, plugdev)
 │   │   └── virtualisation.nix         # Podman daemon & Docker socket emulation
@@ -83,6 +84,21 @@ custom.desktop.shell = "dms"; # Options: "dms" | "noctalia" | "none"
    - `users/santhosh/modules/noctalia.nix` activates only when `cfg.shell == "noctalia"`.
 5. **Systemd Session Target**:
    `systemd.user.targets.hyprland-session` binds the active shell daemon to the graphical session.
+
+### Display Manager Switching (host option)
+
+The login screen is a host-level switch, independent of the in-session shell:
+```nix
+# In hosts/thinkpad/configuration.nix:
+custom.displayManager.session = "gdm"; # Options: "gdm" | "greetd"
+```
+- `gdm` (default): GNOME Display Manager — password at boot; fingerprint only for lock/unlock (GNOME 51 removed greeter fingerprint login).
+- `greetd`: greetd + tuigreet TUI greeter — fingerprint or password at boot. The shared `login` PAM stack gets `pam_fprintd` first (10 s probe), so touching the sensor logs in and a typed password still works (via Linux PAM fallback).
+
+Implemented in `hosts/thinkpad/display-manager.nix`; the two display managers are mutually exclusive per build.
+
+> [!NOTE]
+> Switching the display manager takes effect at the next boot. Use `sudo nixos-rebuild boot --flake .#thinkpad` and reboot — a live `switch` stops the old display manager and kills the running session. Keep the previous generation in the boot menu as the escape hatch.
 
 ---
 

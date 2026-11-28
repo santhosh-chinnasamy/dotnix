@@ -1,0 +1,109 @@
+# Hyprland keybinds (Omarchy-inspired)
+
+Super is the Windows / Command key.
+
+## Tab / app switching
+
+| Keys | Action |
+| --- | --- |
+| Super + Tab (hold Super) | **App switcher** — Snappy Switcher; release Super to focus |
+| Super + Shift + Tab | Previous window in the Snappy list |
+| Alt + Tab | Next window in group (tabbed stack in one tile) |
+| Alt + Shift + Tab | Previous in group |
+| Super + Ctrl + Tab | DMS workspace overview / Noctalia window switcher |
+
+## Shortcuts overlay
+
+| Shell | Super + K | Super + Shift + K |
+| --- | --- | --- |
+| DMS | Grouped cheatsheet — every Hyprland bind, grouped by feature | Floating `KEYBINDS.md` |
+| Noctalia / none | Floating `KEYBINDS.md` | — |
+
+Walker (`Super + Space`, tools `!`) remains the launcher — not the app switcher.
+
+## Screenshots & recording (Mac-like)
+
+Shell-agnostic stack: **Satty** (annotate), **wl-screenrec** (region/monitor/window recording), **hyprpicker** (color).
+
+| Keys | Action |
+| --- | --- |
+| Super + Shift + 3 | Fullscreen → Satty (annotate / save / copy) |
+| Super + Shift + 4 | Region → Satty |
+| Super + Shift + 5 | Recording menu: **Region / Monitor / Window** (then click to pick) |
+| Print / Shift + Print | Quick shell screenshot (DMS or grimblast) |
+| Alt + Print | Start/stop region recording directly (no menu) |
+| Super + Ctrl + Print | OCR region → clipboard |
+| Super + Print | Color picker |
+
+Recording menu: `slurp` shows the picker — drag a region, click a monitor, or click a window. While a recording runs, any recording key stops it. Saved to `~/Videos/screenrecording-<timestamp>.mp4` (no overlay, start/stop notification only).
+
+## Word jump & emoji
+
+| Keys | Action |
+| --- | --- |
+| Alt + Left / Right | Word jump (Mac Option; sends Ctrl+arrows) |
+| Super + . | Emoji / symbols (Walker) |
+| `.` in Walker | Symbols prefix |
+
+## Workspaces
+
+| Keys | Action |
+| --- | --- |
+| Super + [1–9] | Focus workspace N |
+| Super + Ctrl + [1–9] | Move window to workspace N (follow) |
+| Super + Shift + Alt + [1–9] | Silent move to workspace N |
+| Super + 0 | Previous workspace |
+| Super + Ctrl + 0 | Move to previous workspace |
+
+Super+Shift+[3/4/5] are screenshots, so move uses Super+Ctrl instead of Super+Shift.
+
+## Layout
+
+`Super + Shift + L` cycles **this workspace** through dwindle → scrolling → master via `workspace_rule` (Hyprland 0.57 ignores `hyprctl keyword general:layout`).
+
+`Super + J` only works on dwindle (flips split orientation).
+
+## Launch
+
+| Keys | Action |
+| --- | --- |
+| Super + Space | Walker launcher |
+| Super + Shift + Space / `!` | Tools menu |
+| `@query` | Web search |
+| Super + Return | Terminal |
+| Super + Shift + T | btop (`--force-utf`) |
+| Super + K | Keybind cheatsheet |
+| Super + ` | Toggle quake console (persistent console, `special:console`; terminal via `custom.desktop.quakeConsole.terminal`) |
+
+## Hex (dictation)
+
+Hyprland owns the keys — the shortcuts set in Hex Settings are not used on Hyprland. Binds:
+
+| Keys | Action |
+| --- | --- |
+| Alt + Space | Toggle dictation (Hex portal shortcut) |
+| F9 (hold) | Dictation while held (CLI) |
+| Super + Ctrl + X | Toggle dictation (CLI) |
+| Super + Ctrl + Shift + X | Cancel dictation |
+| F10 | Dictation that pastes with Ctrl+Shift+V (terminals) |
+| F12 | Annotate |
+| Super + Ctrl + Alt + X | Hex settings window |
+| Ctrl + Alt + V | Paste last dictation (Hex default) |
+
+Hex runs on the CPU backend (`transcription_device = cpu`): the Intel Vulkan path produced empty live transcriptions.
+
+Alt+Space is Hex's hold/toggle key; a modifier-free key avoids Electron menus being triggered by the Alt release. DMS spotlight moved to `Super + Alt + Space`.
+
+## Session & lock
+
+`Super + Ctrl + L` locks with **hyprlock** — fingerprint first, password as fallback. The same screen covers the idle timeout and suspend (hypridle), and DMS's power-menu lock (repointed via `customPowerActionLock`); boot/login stays with GDM. Declarative config: `users/santhosh/modules/hyprlock.nix`; fingerprint PAM: `pam.services.hyprlock` in `hosts/thinkpad/configuration.nix`.
+
+## Auth popups (polkit)
+
+Privileged apps (`pkexec`, some Flatpaks, system settings) show a **hyprpolkitagent** dialog (fingerprint via fprintd, or password).
+
+DMS/Noctalia built-in polkit agents are disabled (`DMS_DISABLE_POLKIT=1`, noctalia `polkit_agent = false`) so only hyprpolkitagent registers. Check: `systemctl --user status hyprpolkitagent`.
+
+## VS Code encryption
+
+Chromium/Electron keyring pins live in `users/santhosh/modules/electron-keyring.nix` (`*-flags.conf` + VS Code–fork `argv.json`). Unlock the login keyring at session start (Seahorse) if a “weaker encryption” banner persists.

@@ -14,6 +14,19 @@ in
   ];
 
   config = lib.mkIf enableDms {
+    # Keep DMS from registering a polkit agent so hyprpolkitagent can own prompts.
+    systemd.user.services.dms.Service.Environment = lib.mkAfter [ "DMS_DISABLE_POLKIT=1" ];
+
+    # At login the service can start before Hyprland exports WAYLAND_DISPLAY;
+    # retry through that window instead of burning the default start limit.
+    systemd.user.services.dms = {
+      Unit = {
+        StartLimitIntervalSec = 30;
+        StartLimitBurst = 10;
+      };
+      Service.RestartSec = "1";
+    };
+
     programs.dank-material-shell = {
       enable = true;
       systemd = {
@@ -113,6 +126,10 @@ in
           }
         ];
 
+        # Notifications: body/View should invoke the default action (focus app).
+        # Pair with Hyprland misc.focus_on_activate so the raise actually switches workspace.
+        notificationPopupBodyInvokesAction = true;
+
         # Workspaces & Launcher
         showWorkspaceIndex = true;
         showWorkspaceApps = true;
@@ -134,7 +151,11 @@ in
         batteryNotifyChargeLimit = true;
         batteryNotifyLow = true;
         terminalsAlwaysDark = true;
-        lockPamExternallyManaged = true;
+        # Hand every DMS lock request (power menu, control center, and the
+        # logind Lock signal from hypridle) to hyprlock instead of DMS's own
+        # lock screen. The trailing unlock-session clears logind's locked hint
+        # and lets DMS reset its custom-locker state so the next lock works.
+        customPowerActionLock = "hyprlock; loginctl unlock-session";
 
         # Island & OSD
         dankIslandHomeCompactTight = true;

@@ -16,6 +16,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Keep kernel console noise off the TTY greeter (tuigreet): only critical
+  # messages reach the screen; everything still lands in the journal.
+  boot.consoleLogLevel = 2;
+
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -52,8 +56,12 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
+  # Login screen: "gdm" (password at boot; fingerprint at lock/unlock) or
+  # "greetd" (greetd + tuigreet; fingerprint or password at boot).
+  # Implemented in hosts/thinkpad/display-manager.nix.
+  custom.displayManager.session = "greetd";
+
+  # GNOME desktop packages and desktop session (independent of the login screen).
   services.desktopManager.gnome.enable = true;
 
   services.gnome = {
@@ -92,6 +100,7 @@
       "networkmanager"
       "wheel"
       "video"
+      "input" # Voxtype evdev hotkeys (optional; compositor binds work without it)
     ];
     packages = with pkgs; [ ];
   };
@@ -179,16 +188,6 @@
       '';
     };
 
-    pam.services.dankshell = {
-      text = ''
-        auth       sufficient ${pkgs.fprintd}/lib/security/pam_fprintd.so timeout=10
-        auth       required   pam_unix.so try_first_pass nullok
-
-        account    required   pam_unix.so
-        password   required   pam_unix.so
-        session    required   pam_unix.so
-      '';
-    };
     pam.services.gdm.enableGnomeKeyring = true;
 
     pam.services.gdm-password.enableGnomeKeyring = true;
@@ -204,13 +203,35 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  # Remote access over the tailnet only (no public SSH).
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  # Lid policy: stay awake (and reachable) with the lid closed on AC power,
+  # suspend on battery to save power/heat.
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "ignore";
+  };
+
   # Enable Flatpak
   services.flatpak = {
     enable = true;
   };
 
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  xdg.portal.config.common.default = "gtk";
+  xdg.portal = {
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common = {
+      default = "gtk";
+      # Screen capture belongs to the compositor portal: the gtk backend does
+      # not implement ScreenCast (it aborts on the request) and that also
+      # breaks Annotate, browser screen sharing and portal recorders.
+      "org.freedesktop.impl.portal.ScreenCast" = "hyprland";
+      "org.freedesktop.impl.portal.Screenshot" = "hyprland";
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

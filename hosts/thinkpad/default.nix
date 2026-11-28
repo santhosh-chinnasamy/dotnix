@@ -2,6 +2,7 @@
 {
   imports = [
     ./configuration.nix
+    ./display-manager.nix
     ../../modules/packages/cli.nix
     ../../modules/packages/desktop.nix
     inputs.nix-index-database.nixosModules.default
